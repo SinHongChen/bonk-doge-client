@@ -17,7 +17,7 @@ export interface NvaLinkProps {
 export const Icon = styled.div`
     font-size: 28px;
     width: 28px;
-    height: 28px;
+    height: 36px;
 
     @media ${deviceMedia.mobile}{  
         display: none;     

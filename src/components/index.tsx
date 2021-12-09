@@ -6,6 +6,8 @@ export { default as Dashboard } from "./Dashboard";
 export { default as Logo } from "./Logo";
 export { default as Deck } from "./Deck";
 export { default as Lottie } from "./Lottie";
+export { default as ScrollToTop } from "./ScrollToTop";
+
 
 
 

@@ -1,26 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Dashboard } from "components";
+import { GlobalStyle } from "styles/Global";
+import { Login,GamesLobby,Cards,Account,Unsuccess } from "./pages";
+import { Route, Routes, HashRouter } from "react-router-dom";
+import { Provider } from "react-redux"
+import store from "store/store";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle />
+        <HashRouter>
+          <Provider store={store}>
+              <Routes>
+                <Route path="/account" element={<Dashboard element={<Unsuccess/>}/>} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/deckManage" element={<Dashboard element={<Unsuccess/>}/>} />
+                <Route path="/cards" element={<Dashboard element={<Cards/>}/>} />
+                <Route path="/gamesLobby" element={<Dashboard element={<Unsuccess />}/>} />
+                <Route path="/" element={<Login />} />
+              </Routes>
+          </Provider>
+        </HashRouter>
+    </>
   );
-}
+};
 
 export default App;

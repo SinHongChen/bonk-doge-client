@@ -25,7 +25,9 @@ export const GlobalStyle = createGlobalStyle`
         --bg-color-3:#68696b;
         --text-color-1: #f7f7f7;
         --text-color-2: #448bdb;
-        --hover-color-1: #d6a110;
+        --text-color-3: #ffd560;
+
+        --hover-color-1: #383838;
         --border-color-1: rgb(64, 64, 70);
         --box-shadow-color-1: rgba(0,0,0,0.5);
 

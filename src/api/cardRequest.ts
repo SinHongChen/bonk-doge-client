@@ -1,11 +1,12 @@
-import request from "utils/AxiosRequest";
+import request from "utils/request";
 import { AxiosResponse, AxiosRequestConfig } from "axios";
-import { CardInfo } from "types";
+import { CardInfo } from "types/api";
 
 export const getCardInfosRequest = async (
+    sessionId:string,
     keyword?:string,
-    category?:"Role" | "Effect"
-)=>{
+    category?:"Role" | "Effect",
+):Promise<CardInfo[]> =>{
     let data = JSON.stringify({
         query:`query { 
             CardList(Keyword:"${keyword ? keyword : ""}",Category:"${category ? category : ""}"){ 
@@ -40,7 +41,11 @@ export const getCardInfosRequest = async (
     
     let config:AxiosRequestConfig = {
         method:"POST",
-        data:data
+        data:data,
+        headers: { 
+            'Content-Type': 'application/json',
+            "session-id":sessionId
+        }
     }
     let response:AxiosResponse<any> = await request<any>(config);
     let cardInfos:CardInfo[] = response.data.data.CardList;

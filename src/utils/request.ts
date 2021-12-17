@@ -1,9 +1,8 @@
 import axios, { AxiosResponse, AxiosRequestConfig, AxiosInstance } from "axios";
 
-export const baseURL = "https://doge.jack27.me";
 
 export const apiInstance: AxiosInstance = axios.create({
-    baseURL: baseURL,
+    baseURL: process.env.REACT_APP_SERVER_URL,
     headers: { 
         'Content-Type': 'application/json'
     }

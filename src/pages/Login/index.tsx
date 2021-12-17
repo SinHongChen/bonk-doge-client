@@ -1,52 +1,56 @@
-import React, { useEffect,useState } from 'react';
+import React from 'react';
 import { LoginContainer,Title,Form,GoogleOAuthBtn } from "./Style";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from 'react-redux';
-import { setImgUrl,setEmal,setName } from "reducer/userReducer";
-import { loginRequest } from "api/userRequest";
-import { ProfileObj,TokenObj } from "types/OAuthResponse";
-import { User } from "types";
-import { useLocalStorage } from "hooks";
+import { loginRequest } from "api/aouthRequest";
+import { UserLogin } from "types/api";
 import { Logo } from "components";
+import { useCookie } from "hooks";
+import { useEffect } from 'react';
 
+
+//TODO: 要將已經登入的使用者趕出此頁面
 const Login = () => {
+    const [sessionId,setSessionId] = useCookie("session-id","");
     const navigate = useNavigate();
-    const googleClientId = "121935266673-0k8gtbtt35ipptm3vldp64jdtmeb0h3r.apps.googleusercontent.com";
+    const googleClientId = `${process.env.REACT_APP_OAUTH_CLIENT_ID}`;
 
-    const handleLoginRequest = async (profile:ProfileObj)=>{
-        loginRequest(profile.name,profile.email)
-        .then((user:User)=>{
-            navigate(`/cards`);
-        })
-        .catch((error:any)=>{
-            console.error(error);
-        });
-    }
-    const googleOAuthSuccessHandler = (response:any) => {
-        console.log(response)
+    const loginSuccessHandler = (userLogin:UserLogin)=>{
+        setSessionId(userLogin.Session_ID);
         navigate(`/cards`);
+    }
+
+    const googleOAuthSuccessHandler = async (response:any)=>{
+        loginRequest(response.code)
+        .then(loginSuccessHandler)
+        .catch(console.error);
     }
 
     const googleOAuthFailHandle = (error:any) => {
         console.error(error);
     }
 
+    useEffect(()=>{
+        if(sessionId !== ""){
+            navigate(`/`);
+        }
+    })
+
     return (
         <LoginContainer data-theme="dark">
             <Logo/>
             <Title data-text="bonk doge">bonk doge</Title>
             <Form onSubmit={(event)=>{event.preventDefault();}} action="/">
-            <GoogleOAuthBtn
-                icon={false}
-                scope={"profile"}
-                clientId={googleClientId}
-                onSuccess={googleOAuthSuccessHandler}
-                onFailure={googleOAuthFailHandle}
-                cookiePolicy={'single_host_origin'}
-                responseType={"code"}
-                accessType={"offline"}
-                prompt={"consent"}
-            />
+                <GoogleOAuthBtn
+                    icon={false}
+                    scope={"profile"}
+                    clientId={googleClientId}
+                    onSuccess={googleOAuthSuccessHandler}
+                    onFailure={googleOAuthFailHandle}
+                    cookiePolicy={'single_host_origin'}
+                    responseType={"code"}
+                    accessType={"offline"}
+                    prompt={"consent"}
+                />
             </Form>
         </LoginContainer>
     )

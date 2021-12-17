@@ -16,7 +16,7 @@ export interface Attribute {
 export default interface CardInfo {
     UUID: string;
     Name: string;
-    Category: string;
+    Category: "Role" | "Effect";
     Img: string;
     Effect_Assert?: any;
     Effect_Description: string;
@@ -30,5 +30,4 @@ export default interface CardInfo {
     Attack?: number;
     Defense?: number;
 }
-
 

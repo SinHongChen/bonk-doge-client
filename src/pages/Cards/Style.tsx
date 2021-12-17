@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {deviceMedia} from "styles/Device";
+import { deviceMedia } from "styles/Device";
 
 export const CardsContainer = styled.div`
     position: relative;
@@ -30,11 +30,11 @@ export const CategoryFilter = styled.div`
     grid-column-gap: 10px;
 `
 
-export interface CategoryLabelProps{
+export interface CategorySelectorProps{
     isSelected?:boolean
 }
 
-export const CategoryLabel = styled.label<CategoryLabelProps>`
+export const CategorySelector = styled.label<CategorySelectorProps>`
     width:80px;
     height:32px;
     color:var(--text-color-1);

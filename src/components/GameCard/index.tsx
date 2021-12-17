@@ -11,17 +11,18 @@ import {
     Abilitybar,
     NatureInfobar
 } from "./Style";
-import { CardInfo } from "types";
+import { CardInfo } from "types/api";
 
 import Starbar from "./Starbar";
 import RaceIcon from "./RaceIcon";
 
 export interface GameCardProps {
-    card:CardInfo
+    card:CardInfo,
+    style?:React.CSSProperties,
+    className?:string
 }
 
-const GameCard = ({card}:GameCardProps) => {
-
+const GameCard = ({card,style,className}:GameCardProps) => {
     const dispatchTheme = (categoryName:string)=>{
         switch(categoryName){
             case "Role":
@@ -34,7 +35,7 @@ const GameCard = ({card}:GameCardProps) => {
     }
 
     return (
-        <GameCardContainer theme={dispatchTheme(card.Category)}>
+        <GameCardContainer className={className} style={style} theme={dispatchTheme(card.Category)}>
             <Header>
                 <DisplayNamebar>{card.Name}</DisplayNamebar>
                 <RaceIcon raceName={"神"}/>

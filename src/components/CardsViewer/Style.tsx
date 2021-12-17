@@ -7,9 +7,8 @@ export const CardsViewerContainer = styled.div`
     background: var(--bg-color-2); 
     overflow: auto;
     border-radius: 0.2em;
-    border:1px solid rgb(64, 64, 70);
+    border:1px solid var(--border-color-1);
     ${ScrollbarCss};
-    padding: 20px;
     /* 卡片寬度 260px,border 1px,gap 20px,padding 20px  */
     width: clamp(302px,100%,1442px);
     display:grid;
@@ -17,6 +16,7 @@ export const CardsViewerContainer = styled.div`
     justify-items: center;
     align-items: flex-start;
     grid-gap: 20px;
+    padding: 20px;
 `
 
 export const LoadingSection = styled.div`
@@ -27,21 +27,14 @@ export const LoadingSection = styled.div`
     padding: 20px;
     background: var(--bg-color-2);
     border-radius: 0.2em;
-    border:1px solid rgb(64, 64, 70);
-`
-
-export const EmptySection = styled.div`
-    width: clamp(302px,100%,1442px);
-    display: flex;
-    align-items: center;
-    justify-content:center;
-    padding: 20px;
-    background: var(--bg-color-2);
-    border-radius: 0.2em;
-    border:1px solid rgb(64, 64, 70);
+    border:1px solid var(--border-color-1);
     color:var(--text-color-1);
     font-size: 42px;
     font-weight: bold;
+`
+
+export const EmptySection = styled(LoadingSection)`
+
 `
 
 export const LottieStyle = {

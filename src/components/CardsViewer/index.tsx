@@ -2,7 +2,7 @@ import React from 'react'
 
 import { GameCard } from "components";
 import { CardsViewerContainer,LoadingSection,LottieStyle,EmptySection } from "./Style";
-import { CardInfo } from "types";
+import { CardInfo } from "types/api";
 import Lottie,{ animationInfos } from "components/Lottie";
 
 export interface DeckProps {

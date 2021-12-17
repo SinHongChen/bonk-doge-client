@@ -1,78 +1,47 @@
-import request from "utils/AxiosRequest";
+import request from "utils/request";
 import { AxiosResponse, AxiosRequestConfig } from "axios";
-import { User } from "types";
+import { UserInfo } from "types/api";
 
-export const loginRequest = async (name:string,email:string):Promise<User>=>{
+export const getUserInfoRequest = async (sessionId:string):Promise<UserInfo>=>{
     let data = JSON.stringify({
-        query: `mutation { 
-            UserLogin(Name : "${name}" ,  Email : "${email}" ){
+        query: `query {
+            UserInfo{
                 ID
                 Name
                 Email
+                Picture_Url
             }
         }`,
         variables: {}
     });
     let config:AxiosRequestConfig = {
         method: 'POST',
-        data : data
+        data : data,
+        headers: { 
+            'Content-Type': 'application/json',
+            "session-id":sessionId
+        }
     }
     let response:AxiosResponse<any> = await request<any>(config);
-    let user:User = response.data.data.UserLogin;
+    let user:UserInfo = response.data.data.UserInfo;
     return user;
 }
 
-export const updateRequest = async (name:string,email:string):Promise<User>=>{
+export const logoutRequest = async (sessionId:string) => {
+    let data = JSON.stringify({
+        query: `mutation {
+            UserLogout
+        }`,
+        variables: {}
+    });
     let config:AxiosRequestConfig = {
-        method:"POST",
-        data:JSON.stringify({
-            query: `mutation{ userCreate(name:"${name}",email:"${email}") }`,
-            variables: {}
-        })
+        method: 'POST',
+        data : data,
+        headers: { 
+            'Content-Type': 'application/json',
+            "session-id":sessionId
+        }
     }
-
-    let response:AxiosResponse<User> = await request<User>(config);
-    let user:User = response.data;
-    return user;
-}
-
-export const getUserListRequest  = async ():Promise<User[]>=>{
-    let config:AxiosRequestConfig = {
-        method:"POST",
-        data:JSON.stringify({
-            query: `query { 
-                UserList {
-                    ID
-                    Name
-                    Email
-                }
-              }`,
-            variables: {}
-        })
-    }
-
-    let response:AxiosResponse<User[]> = await request<User[]>(config);
-    let users:User[] = response.data;
-    return users;
-}
-
-
-export const getRequest = async (id:string):Promise<User>=>{
-    let config:AxiosRequestConfig = {
-        method:"POST",
-        data:JSON.stringify({
-            query: `query { 
-                UserGet( ID : "${id}" ){
-                      ID
-                      Name
-                      Email
-                  }
-            }`,
-            variables: {}
-        })
-    }
-
-    let response:AxiosResponse<User> = await request<User>(config);
-    let user:User = response.data;
-    return user;
+    let response:AxiosResponse<any> = await request<any>(config);
+    return response;
 }

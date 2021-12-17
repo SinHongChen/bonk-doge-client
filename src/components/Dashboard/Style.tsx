@@ -126,15 +126,39 @@ export const Avator = styled.img`
     position: relative;
 
     @media ${deviceMedia.desktop}{    
-        width: 100px;
-        height: 100px;    
+        width: 80px;
+        height: 80px;    
     }
     @media ${deviceMedia.tablet}{        
-        width: 60px;
-        height: 60px;
+        width: 50px;
+        height: 50px;
     }
+
+`
+
+export const AccountInfoBar = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    grid-row-gap: 10px;
     @media ${deviceMedia.mobile}{        
         display: none;
+    }
+`
+
+export const UserNameBar = styled.div`
+    color:var(--text-color-1);
+`
+
+export const SignOutBtn = styled.a`
+    text-decoration: none;
+    color:var(--text-color-1);
+    padding: 5px 10px;
+    font-weight: bold;
+    &:hover{
+        cursor: pointer;
+        background: var(--bg-color-1);
     }
 `
 

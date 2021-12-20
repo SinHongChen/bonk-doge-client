@@ -2,42 +2,33 @@ import React,{ useLayoutEffect,useState,useEffect } from 'react'
 
 import Nvabar,{ NavLinkInfo } from "./Nvabar";
 import { UserNameBar,AccountInfoBar,SignOutBtn,DashboardContainer,MenuContainer,MainContainer,Avator,MenuCloseBtn,MenuOpenBtn } from "./Style";
-import { FcBusinessman,FcOpenedFolder,FcHome,FcBriefcase,FcSupport } from "react-icons/fc";
-import { AiOutlineClose,AiOutlineMenu } from "react-icons/ai";
+import { FcSettings,FcOpenedFolder } from "react-icons/fc";
+import { AiOutlineClose,AiOutlineMenu,AiFillFileAdd } from "react-icons/ai";
 import { useSelector } from 'react-redux';
 import { selectImgUrl,selectName } from "reducer/userReducer";
 import { useLocation,useNavigate } from 'react-router-dom';
 import { useCookie } from "hooks";
-import { getUserInfoRequest,logoutRequest } from "api/userRequest";
+import { getUserInfoRequest } from "api/userRequest";
 import { useDispatch } from 'react-redux';
 import { setImgUrl,setEmal,setName } from "reducer/userReducer";
 import { UserInfo } from "types/api";
+import { RiLogoutBoxLine } from "react-icons/ri";
 
 const nvaLinkInfos:NavLinkInfo[] = [
-    {
-        displayName:"Account",
-        url:"/account",
-        icon:<FcBusinessman/>
-    },
-    {
-        displayName:"Deck",
-        url:"/deckManage",
-        icon:<FcBriefcase/>
-    },
-    {
-        displayName:"Lobby",
-        url:"/gamesLobby",
-        icon:<FcHome/>
-    },
     {
         displayName:"Cards",
         url:"/cards",
         icon:<FcOpenedFolder/>
     },
     {
-        displayName:"Socket !",
-        url:"/socket",
-        icon:<FcSupport/>
+        displayName:"Create",
+        url:"/createCard",
+        icon:<AiFillFileAdd/>
+    },
+    {
+        displayName:"Logout",
+        url:"/logout",
+        icon:<RiLogoutBoxLine/>
     }
 ];
 
@@ -46,7 +37,7 @@ export interface DashboardProps{
 }
 
 const Dashboard = ({element}:DashboardProps) => {
-    const [sessionId,setSessionId] = useCookie("session-id","");
+    const [loginId,setLoginId] = useCookie("login-id","");
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -62,29 +53,26 @@ const Dashboard = ({element}:DashboardProps) => {
         dispatch(setName(userLogin.Name));
     }
 
-    const isLoggedIn = async (sessionId:string)=>{
-        await getUserInfoRequest(sessionId)
+    const loggedValid = async (loginId:string)=>{
+        await getUserInfoRequest(loginId)
         .then((userInfo)=>{
             if(userInfo){
                 setUserInfo(userInfo)
-                return true
+            }else{
+                setLoginId("");
+                navigate("/login");
             }
         })
-        .catch(console.error);
-        return false;
-    }
-
-    const logoutHandler = async ()=>{
-        await logoutRequest(sessionId);
-        setSessionId("");
+        .catch((err)=>{
+            console.error(err);
+            setLoginId("");
+            navigate("/login");
+        });
     }
 
     useLayoutEffect(()=>{
-        if(!sessionId) navigate("/login");
-        if(!isLoggedIn(sessionId)){
-            navigate("/login");
-        }
-    },[sessionId]);
+        loggedValid(loginId);
+    },[loginId]);
 
     useEffect(()=>{
         setMenuCollaps(false);
@@ -104,8 +92,6 @@ const Dashboard = ({element}:DashboardProps) => {
                     <AiOutlineClose/>
                 </MenuCloseBtn>
                 <Nvabar navLinkInfos={nvaLinkInfos}/>
-                <SignOutBtn onClick={logoutHandler}>Logout Out</SignOutBtn>
-
             </MenuContainer>
             <MainContainer>
                 {element}

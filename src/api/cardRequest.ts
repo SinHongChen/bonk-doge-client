@@ -3,7 +3,7 @@ import { AxiosResponse, AxiosRequestConfig } from "axios";
 import { CardInfo } from "types/api";
 
 export const getCardInfosRequest = async (
-    sessionId:string,
+    loginId:string,
     keyword?:string,
     category?:"Role" | "Effect",
 ):Promise<CardInfo[]> =>{
@@ -14,6 +14,7 @@ export const getCardInfosRequest = async (
                 Name
                 Category
                 Img
+                Img_Url
                 Effect_Assert
                 Effect_Description
                 Nature_ID
@@ -44,7 +45,7 @@ export const getCardInfosRequest = async (
         data:data,
         headers: { 
             'Content-Type': 'application/json',
-            "session-id":sessionId
+            "session-id":loginId
         }
     }
     let response:AxiosResponse<any> = await request<any>(config);

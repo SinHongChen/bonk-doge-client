@@ -1,7 +1,7 @@
 import React from "react";
 import { Dashboard,ScrollToTop } from "components";
 import { GlobalStyle } from "styles/Global";
-import { Login,GamesLobby,Cards,Account,Socket,Game } from "./pages";
+import { Login,Logout,CreateCard,Cards } from "./pages";
 import { Route, Routes, HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "store/store";
@@ -14,14 +14,11 @@ const App = () => {
             <Provider store={store}>
               <ScrollToTop>
                 <Routes>
-                  <Route path="/account" element={<Dashboard element={<Account/>}/>} />
                   <Route path="/login" element={<Login />} />
-                  <Route path="/deckManage" element={<Dashboard element={<Account/>}/>} />
-                  <Route path="/cards" element={<Dashboard element={<Cards/>}/>} />
-                  <Route path="/gamesLobby" element={<Dashboard element={<GamesLobby />}/>} />
-                  <Route path="/socket" element={<Dashboard element={<Socket/>}/>} />
-                  <Route path="/game" element={<Game/>} />
-                  <Route path="/" element={<Dashboard element={<GamesLobby />}/>} />
+                  <Route path="/createCard" element={<Dashboard element={<CreateCard />}/>} />
+                  <Route path="/logout" element={<Logout/>} />
+                  <Route path="/cards" element={<Dashboard element={<Cards />}/>} />
+                  <Route path="/" element={<Dashboard element={<CreateCard />}/>} />
                 </Routes>
               </ScrollToTop>
             </Provider>

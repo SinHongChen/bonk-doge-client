@@ -10,12 +10,12 @@ import { useEffect } from 'react';
 
 //TODO: 要將已經登入的使用者趕出此頁面
 const Login = () => {
-    const [sessionId,setSessionId] = useCookie("session-id","");
+    const [loginId,setLoginId] = useCookie("login-id","");
     const navigate = useNavigate();
     const googleClientId = `${process.env.REACT_APP_OAUTH_CLIENT_ID}`;
 
     const loginSuccessHandler = (userLogin:UserLogin)=>{
-        setSessionId(userLogin.Session_ID);
+        setLoginId(userLogin.Session_ID);
         navigate(`/cards`);
     }
 
@@ -30,10 +30,11 @@ const Login = () => {
     }
 
     useEffect(()=>{
-        if(sessionId !== ""){
+        if(loginId !== ""){
             navigate(`/`);
         }
     })
+
 
     return (
         <LoginContainer data-theme="dark">

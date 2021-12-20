@@ -19,7 +19,7 @@ const Nvabar = ({navLinkInfos}:NavbarProps) => {
         <NavbarContianer>
             {navLinkInfos.map((navLinkInfo,index)=>{
                 return (
-                    <NvaLink isSelected={location.pathname === navLinkInfo.url} key={index} to={navLinkInfo.url}>
+                    <NvaLink title={navLinkInfo.displayName} isSelected={location.pathname === navLinkInfo.url} key={index} to={navLinkInfo.url}>
                         <Icon>{navLinkInfo.icon}</Icon>
                         <LinkDisplayName>{navLinkInfo.displayName}</LinkDisplayName>
                     </NvaLink>

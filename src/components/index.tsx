@@ -1,4 +1,4 @@
-export { default as CreateGameCardForm } from "./CreateGameCardForm";
+export { default as GameCardForm } from "./GameCardForm";
 export { default as Dashboard } from "./Dashboard";
 export { default as ScrollToTop } from "./ScrollToTop";
 export { default as Logo } from "./Logo";

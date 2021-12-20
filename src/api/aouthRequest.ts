@@ -2,6 +2,11 @@ import request from "utils/request";
 import { AxiosResponse, AxiosRequestConfig } from "axios";
 import { UserLogin } from "types/api";
 
+/**
+ * 取得 google oauth code 後丟給後端進行登入驗證
+ * @param code 
+ * @returns 
+ */
 export const loginRequest = async (code:string):Promise<UserLogin>=>{
     let data = JSON.stringify({
         query: `mutation{

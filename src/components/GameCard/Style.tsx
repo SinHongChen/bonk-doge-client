@@ -43,9 +43,13 @@ export const GameCardContainer = styled.div<GameCardContainerProps>`
     box-shadow: 1px 1px 4px 1px rgba(0,0,0,0.7);
     color: white;
     width: 260px;
-    height:  415px;
+    height:  417px;
     background: ${props=> getCardBgColor(props.theme)};
     position: relative;
+    transition:all 0.2s ease-in-out;
+    &:hover{
+        cursor: pointer;
+    }
 `
 
 export const Header = styled.div`

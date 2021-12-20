@@ -18,11 +18,12 @@ import RaceIcon from "./RaceIcon";
 
 export interface GameCardProps {
     card:CardInfo,
+    onClick?:React.MouseEventHandler<HTMLDivElement>,
     style?:React.CSSProperties,
     className?:string
 }
 
-const GameCard = ({card,style,className}:GameCardProps) => {
+const GameCard = ({card,onClick,style,className}:GameCardProps) => {
     const dispatchTheme = (categoryName:string)=>{
         switch(categoryName){
             case "Role":
@@ -35,7 +36,7 @@ const GameCard = ({card,style,className}:GameCardProps) => {
     }
 
     return (
-        <GameCardContainer className={className} style={style} theme={dispatchTheme(card.Category)}>
+        <GameCardContainer onClick={onClick} className={className} style={style} theme={dispatchTheme(card.Category)}>
             <Header>
                 <DisplayNamebar>{card.Name}</DisplayNamebar>
                 {card.Category === "Role" &&
@@ -44,7 +45,7 @@ const GameCard = ({card,style,className}:GameCardProps) => {
             </Header>
 
             {card.Category === "Role" ?
-                <Starbar number={card.Star ? card.Star : 0}/> : 
+                <Starbar number={card.Star ? parseInt(card.Star) : 0}/> : 
                 <NatureInfobar>【{card.Nature?.Name}】</NatureInfobar>
             }
             

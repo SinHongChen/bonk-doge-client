@@ -1,29 +1,19 @@
-import { useState,useLayoutEffect } from "react";
-import {
-  Select,
-  InputNumber,
-  Input,
-  Button,
-  Upload,
-} from "antd";
+import { useState, useLayoutEffect } from "react";
+import { Select, InputNumber, Input, Button, Upload,Form } from "antd";
 import { CreateForm, ModifyAntdStyle } from "./Style";
 import { UploadOutlined } from "@ant-design/icons";
-import { 
-  roleCardCreateRequest,
-  effectCardCreateRequest,
-  getAttributeList,
-  getNatureList,
-  getRaceList
-} from "api/cardManageRequest";
+import { getAttributeList, getNatureList, getRaceList } from "api/cardRequest";
 import { useCookie } from "hooks";
-import { 
-  RoleCardCreateInfo,
-  EffectCardCreateInfo,
+import {
+  RoleCardInfo,
+  EffectCardInfo,
+  CardInfo,
   Nature,
   Attribute,
-  Race
+  Race,
 } from "types/api";
 import "antd/dist/antd.css";
+import { useEffect } from "react";
 
 const { Option } = Select;
 const formItemLayout = {
@@ -36,7 +26,6 @@ const formItemLayout = {
 };
 
 const normFile = (e: any) => {
-  console.log("Upload event:", e);
 
   if (Array.isArray(e)) {
     return e;
@@ -45,72 +34,96 @@ const normFile = (e: any) => {
   return e && e.fileList;
 };
 
-const CreateGameCardForm = () => {
-  const [loginId, setLoginId] = useCookie("login-id", "");
-  const [selectedCategory, setSelectedCategory] = useState("role");
-  const [attributeList,setAttributeList] = useState<Attribute[]>([]);
-  const [natureList,setNatureList] = useState<Nature[]>([]);
-  const [raceList,setRaceList] = useState<Race[]>([]);
+function instanceOfEffectCardInfo(object: any): object is EffectCardInfo {
+  if(object.Nature_ID) return true;
+  return false;
+}
 
-  const initialSelectList = ()=>{
+export interface GameCardFormProps {
+  cardInfo?: CardInfo;
+  onFinish: (values: any) => void;
+}
+
+const GameCardForm = ({ cardInfo, onFinish }: GameCardFormProps) => {
+  const [form] = Form.useForm();
+  const [loginId, setLoginId] = useCookie("login-id", "");
+  const [initialValue,setInitialValue] = useState<any>({});
+  const [selectedCategory, setSelectedCategory] = useState("Role");
+  const [attributeList, setAttributeList] = useState<Attribute[]>([]);
+  const [natureList, setNatureList] = useState<Nature[]>([]);
+  const [raceList, setRaceList] = useState<Race[]>([]);
+
+  const initialSelectList = () => {
     getAttributeList(loginId).then(setAttributeList);
     getNatureList(loginId).then(setNatureList);
     getRaceList(loginId).then(setRaceList);
-  }
-
-  const convertFormValuesToRoleCardCreateInfo = (values: any):RoleCardCreateInfo=>{
-    return {
-      Name: values.name,
-      ImgFile: values.upload[0].originFileObj,
-      Attribute_ID: parseInt(values.attribute),
-      Star: parseInt(values.star),
-      Race_ID: parseInt(values.race),
-      Effect_Assert: values.effectAssert,
-      Effect_Description: values.effectDescription,
-      Attack: parseInt(values.attack),
-      Defense: parseInt(values.defense),
-    }
-  }
-
-  const convertFormValuesToEffectCardCreateInfo = (values: any):EffectCardCreateInfo=>{
-    return {
-      Name: values.name,
-      ImgFile: values.upload[0].originFileObj,
-      Effect_Assert: values.effectAssert,
-      Effect_Description: values.effectDescription,
-      Nature_ID:values.nature
-    }
-  }
-
-  const onFinish = (values: any) => {
-    console.log(values)
-    // if(selectedCategory === "role"){
-    //   let roleCardCreateInfo = convertFormValuesToRoleCardCreateInfo(values);
-    //   roleCardCreateRequest(loginId, roleCardCreateInfo);
-    // }else{
-    //   let effectCardCreateInfo = convertFormValuesToEffectCardCreateInfo(values);
-    //   effectCardCreateRequest(loginId, effectCardCreateInfo);
-    // }
   };
+
+  const convertImgToFileList = (imgName:string,imgUrl:string)=>{
+    return [
+      {
+        uid: '-1',
+        name: `${imgName}`,
+        status: 'done',
+        url: `${imgUrl}`,
+      }
+    ]
+  }
+
 
   const onCategoryChange = (value: string) => {
     setSelectedCategory(value);
   };
 
-  useLayoutEffect(()=>{
+  const setInitialValues = (cardInfo: CardInfo) => {
+    if (instanceOfEffectCardInfo(cardInfo)) {
+      setSelectedCategory("Effect");
+      setInitialValue({
+        category: "Effect",
+        effectAssert: cardInfo.Effect_Assert.split(","),
+        effectDescription: cardInfo.Effect_Description,
+        name: cardInfo.Name,
+        nature: cardInfo.Nature?.ID,
+        upload:convertImgToFileList(cardInfo.Img,cardInfo.Img_Url)
+      });
+    } else {
+      setSelectedCategory("Role");
+      setInitialValue({
+        category: "Role",
+        attribute: cardInfo.Attribute?.ID,
+        attack: cardInfo.Attack,
+        defense: cardInfo.Defense,
+        effectAssert: cardInfo.Effect_Assert.split(","),
+        effectDescription: cardInfo.Effect_Description,
+        name: cardInfo.Name,
+        race: cardInfo.Race?.ID,
+        star: cardInfo.Star,
+        upload:convertImgToFileList(cardInfo.Img,cardInfo.Img_Url)
+      });
+    }
+  };
+
+  useLayoutEffect(() => {
     initialSelectList();
-  },[]);
+  }, []);
+
+  useLayoutEffect(()=>{
+    if(cardInfo){
+      setInitialValues(cardInfo);
+    }
+  },[cardInfo])
+
+  useEffect(()=>{
+    form.setFieldsValue(initialValue);
+  },[form,initialValue])
 
   return (
     <CreateForm
+      form={form}
       name="validate_other"
       {...formItemLayout}
       onFinish={onFinish}
-      initialValues={{
-        "input-number": 3,
-        "checkbox-group": ["A", "B"],
-        rate: 3.5,
-      }}
+      initialValues={initialValue}
     >
       <ModifyAntdStyle />
       <CreateForm.Item
@@ -127,13 +140,12 @@ const CreateGameCardForm = () => {
         <Select
           onChange={onCategoryChange}
           placeholder="Please select a Category"
-          defaultActiveFirstOption={true}
         >
-          <Option value="role">Role</Option>
-          <Option value="effect">Effect</Option>
+          <Option value="Role">Role</Option>
+          <Option value="Effect">Effect</Option>
         </Select>
       </CreateForm.Item>
-      {selectedCategory === "role" && (
+      {selectedCategory === "Role" && (
         <CreateForm.Item
           name="race"
           label="Race"
@@ -146,14 +158,18 @@ const CreateGameCardForm = () => {
           ]}
         >
           <Select placeholder="Please select a Race">
-            {raceList.map((race,index)=>{
-              return <Option key={index} value={race.ID}>{race.Name}</Option>
+            {raceList.map((race, index) => {
+              return (
+                <Option key={index} value={race.ID}>
+                  {race.Name}
+                </Option>
+              );
             })}
           </Select>
         </CreateForm.Item>
       )}
 
-      {selectedCategory === "role" && (
+      {selectedCategory === "Role" && (
         <CreateForm.Item
           name="attribute"
           label="Attribute"
@@ -166,14 +182,18 @@ const CreateGameCardForm = () => {
           ]}
         >
           <Select placeholder="Please select a Attribute">
-            {attributeList.map((attribute,index)=>{
-              return <Option key={index} value={attribute.ID}>{attribute.Name}</Option>
+            {attributeList.map((attribute, index) => {
+              return (
+                <Option key={index} value={attribute.ID}>
+                  {attribute.Name}
+                </Option>
+              );
             })}
           </Select>
         </CreateForm.Item>
       )}
 
-      {selectedCategory === "effect" && (
+      {selectedCategory === "Effect" && (
         <CreateForm.Item
           name="nature"
           label="Nature"
@@ -186,8 +206,12 @@ const CreateGameCardForm = () => {
           ]}
         >
           <Select placeholder="Please select a Nature">
-            {natureList.map((nature,index)=>{
-              return <Option key={index} value={nature.ID}>{nature.Name}</Option>
+            {natureList.map((nature, index) => {
+              return (
+                <Option key={index} value={nature.ID}>
+                  {nature.Name}
+                </Option>
+              );
             })}
           </Select>
         </CreateForm.Item>
@@ -205,10 +229,8 @@ const CreateGameCardForm = () => {
       >
         <Input placeholder="Please input Card Name!" />
       </CreateForm.Item>
-      {selectedCategory === "role" && (
-        <CreateForm.Item
-          label="Star"
-        >
+      {selectedCategory === "Role" && (
+        <CreateForm.Item label="Star">
           <CreateForm.Item
             rules={[
               {
@@ -216,7 +238,9 @@ const CreateGameCardForm = () => {
                 message: "Please input Star Number!",
               },
             ]}
-            name="star" noStyle>
+            name="star"
+            noStyle
+          >
             <InputNumber min={1} max={10} />
           </CreateForm.Item>
         </CreateForm.Item>
@@ -241,8 +265,8 @@ const CreateGameCardForm = () => {
         rules={[
           {
             required: true,
-            message: 'Please select your Effect Assert!',
-            type: 'array',
+            message: "Please select your Effect Assert!",
+            type: "array",
           },
         ]}
       >
@@ -253,7 +277,7 @@ const CreateGameCardForm = () => {
         </Select>
       </CreateForm.Item>
 
-      {selectedCategory === "role" && (
+      {selectedCategory === "Role" && (
         <CreateForm.Item
           name="attack"
           label="Attack"
@@ -268,7 +292,7 @@ const CreateGameCardForm = () => {
         </CreateForm.Item>
       )}
 
-      {selectedCategory === "role" && (
+      {selectedCategory === "Role" && (
         <CreateForm.Item
           name="defense"
           label="Defense"
@@ -295,7 +319,7 @@ const CreateGameCardForm = () => {
           },
         ]}
       >
-        <Upload name="logo" action="/upload.do" listType="picture">
+        <Upload maxCount={1} name="logo" action="/upload.do" listType="picture">
           <Button icon={<UploadOutlined />}>Click to upload</Button>
         </Upload>
       </CreateForm.Item>
@@ -313,4 +337,4 @@ const CreateGameCardForm = () => {
   );
 };
 
-export default CreateGameCardForm;
+export default GameCardForm;

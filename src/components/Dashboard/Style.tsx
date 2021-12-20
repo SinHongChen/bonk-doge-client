@@ -11,7 +11,7 @@ export const DashboardContainer = styled.div`
     background:var(--bg-color-1);
 
     @media ${deviceMedia.desktop}{        
-        grid-template-columns: 190px 1fr;
+        grid-template-columns: 180px 1fr;
     }
     @media ${deviceMedia.tablet}{        
         grid-template-columns: 80px 1fr;
@@ -126,8 +126,8 @@ export const Avator = styled.img`
     position: relative;
 
     @media ${deviceMedia.desktop}{    
-        width: 80px;
-        height: 80px;    
+        width: 50px;
+        height: 50px;
     }
     @media ${deviceMedia.tablet}{        
         width: 50px;

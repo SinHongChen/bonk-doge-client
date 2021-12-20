@@ -17,8 +17,10 @@ export interface NvaLinkProps {
 export const Icon = styled.div`
     font-size: 28px;
     width: 28px;
-    height: 36px;
-
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     @media ${deviceMedia.mobile}{  
         display: none;     
     }
@@ -50,11 +52,10 @@ export const NvaLink = styled(Link)<NvaLinkProps>`
     height: 50px;
     text-decoration: none;
     background-color: ${props => props.isSelected ? "var(--bg-color-1)" : ""};
-    padding: 0px 20px;
     border: ${props => props.isSelected ? "1px solid var(--border-color-1)" : ""};
     position: relative;
     color:var(--text-color-1);
-    
+    padding-left: 25px;
     @media ${deviceMedia.mobile}{        
     
     }

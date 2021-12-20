@@ -13,6 +13,26 @@ export interface Attribute {
     Name: string;
 }
 
+export interface EffectCardInfo{
+    Name: string,
+    ImgFile: File,
+    Nature_ID: string,
+    Effect_Assert: string,
+    Effect_Description: string
+}
+
+export interface RoleCardInfo{
+    Name:string,
+    ImgFile:File,
+    Attribute_ID:string,
+    Star:string,
+    Race_ID:string,
+    Effect_Assert:string,
+    Effect_Description:string,
+    Attack:string,
+    Defense:string
+}
+
 export default interface CardInfo {
     UUID: string;
     Name: string;
@@ -21,15 +41,15 @@ export default interface CardInfo {
     Img_Url:string;
     Effect_Assert?: any;
     Effect_Description: string;
-    Nature_ID?: number;
+    Nature_ID?: string;
     Nature?: Nature;
-    Attribute_ID?: number;
-    Star?: number;
-    Race_ID?: number;
+    Attribute_ID?: string;
+    Star?: string;
+    Race_ID?: string;
     Race?: Race;
     Attribute?: Attribute;
-    Attack?: number;
-    Defense?: number;
+    Attack?: string;
+    Defense?: string;
 }
 
 

@@ -3,4 +3,6 @@ export default interface UserInfo {
     Name: string,
     Email: string,
     Picture_Url: string,
+    Victory:number,
+    Defeat:number
 }

@@ -38,7 +38,9 @@ const GameCard = ({card,style,className}:GameCardProps) => {
         <GameCardContainer className={className} style={style} theme={dispatchTheme(card.Category)}>
             <Header>
                 <DisplayNamebar>{card.Name}</DisplayNamebar>
-                <RaceIcon raceName={"神"}/>
+                {card.Category === "Role" &&
+                    <RaceIcon raceName={card.Attribute?.Name}/>
+                }
             </Header>
 
             {card.Category === "Role" ?
@@ -46,7 +48,7 @@ const GameCard = ({card,style,className}:GameCardProps) => {
                 <NatureInfobar>【{card.Nature?.Name}】</NatureInfobar>
             }
             
-            <Image imgSrc={"./images/card/我不想再色色了.png"}/>
+            <Image imgSrc={card.Img_Url}/>
             <Content>
                 {card.Category === "Role" &&
                     <RaceInfobar>

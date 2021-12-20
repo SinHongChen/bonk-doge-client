@@ -8,7 +8,7 @@ export interface RaceIconProps{
 const RaceIcon = ({raceName}:RaceIconProps) => {
     return (
         <RaceIconContainer>
-            {raceName}
+            <span>{raceName}</span>
         </RaceIconContainer>
     )
 }

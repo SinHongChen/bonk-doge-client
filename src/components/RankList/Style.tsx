@@ -12,10 +12,11 @@ export const RankListContainer = styled.div`
     justify-content: flex-start;
     padding:20px 10px;
     grid-gap: 30px;
+    overflow: auto;
 `
 
 export const Logo = styled.img`
-    width: 120px;
+    width: 80px;
     height: auto;
     object-fit: contain;
 `

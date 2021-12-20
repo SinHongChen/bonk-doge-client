@@ -7,14 +7,17 @@ export const GamesLobbyContainer = styled.div`
     grid-gap: 10px;
     width: 100%;
     height: 100%;
+
     @media ${deviceMedia.desktop}{        
-        grid-template-columns:  1fr 300px;
+        grid-template-columns:  300px 1fr ;
     }
     @media ${deviceMedia.tablet}{        
         grid-template-columns:  1fr;
+        grid-template-rows: 400px 1fr;
     }
     @media ${deviceMedia.mobile}{        
         grid-template-columns:  1fr ;
+        grid-template-rows: 300px 1fr;
     }
 `
 

@@ -8,7 +8,7 @@ import { CardInfo } from "types/api";
 import { useCookie } from "hooks";
 
 const Cards = () => {
-    const [sessionId,setSessionId] = useCookie("session-id","");
+    const [loginId,setLoginId] = useCookie("login-id","");
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -20,7 +20,7 @@ const Cards = () => {
 
     const initialCardInfos = (keyword?:string | undefined,category?:"Role" | "Effect")=>{
         setIsSearching(true);
-        getCardInfosRequest(sessionId,keyword,category)
+        getCardInfosRequest(loginId,keyword,category)
         .then((cardInfos)=>setCardInfos([...cardInfos]))
         .then(()=>setIsSearching(false))
         .catch(console.error);
@@ -57,15 +57,15 @@ const Cards = () => {
                     <AiOutlineSearch/>
                 </SearchIcon>
                 <SearchInput ref={keywordRef} placeholder="KEYWORD"/>
+                <CategoryFilter>
+                    <CategorySelector onClick={()=>{
+                        setSelectCategory(category => category === "Role" ? undefined : "Role");
+                    }} isSelected={selectCategory === "Role"} >Role</CategorySelector>
+                    <CategorySelector onClick={()=>{
+                        setSelectCategory(category => category === "Effect" ? undefined : "Effect");
+                    }} isSelected={selectCategory === "Effect"} >Effect</CategorySelector>
+                </CategoryFilter>
             </SearchForm>
-            <CategoryFilter>
-                <CategorySelector onClick={()=>{
-                    setSelectCategory(category => category === "Role" ? undefined : "Role");
-                }} isSelected={selectCategory === "Role"} >Role</CategorySelector>
-                <CategorySelector onClick={()=>{
-                    setSelectCategory(category => category === "Effect" ? undefined : "Effect");
-                }} isSelected={selectCategory === "Effect"} >Effect</CategorySelector>
-            </CategoryFilter>
             <CardsViewer isLoading={isSearching} cards={cardInfos} viewMode={"grid"}/>
         </CardsContainer>
     )

@@ -52,6 +52,7 @@ export const NvaLink = styled(Link)<NvaLinkProps>`
     padding: 0px 20px;
     border: ${props => props.isSelected ? "1px solid var(--border-color-1)" : ""};
     position: relative;
+    color:var(--text-color-1);
     
     @media ${deviceMedia.mobile}{        
     

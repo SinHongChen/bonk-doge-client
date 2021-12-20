@@ -18,6 +18,7 @@ export default interface CardInfo {
     Name: string;
     Category: "Role" | "Effect";
     Img: string;
+    Img_Url:string;
     Effect_Assert?: any;
     Effect_Description: string;
     Nature_ID?: number;
@@ -30,4 +31,3 @@ export default interface CardInfo {
     Attack?: number;
     Defense?: number;
 }
-

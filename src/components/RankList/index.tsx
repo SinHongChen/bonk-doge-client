@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
+import { PlayerInfo } from "types";
 import { 
     RankListContainer,
     Logo,
@@ -6,13 +7,6 @@ import {
     PlayerInfosSection,
     PlayerInfosHeader
 } from "./Style";
-
-export interface PlayerInfo {
-    name:string,
-    imgSrc:string,
-    victory:number,
-    defeat:number
-}
 
 export interface RankListProps{
     players:PlayerInfo[]
@@ -31,9 +25,9 @@ const RankList = ({players}:RankListProps) => {
                 {players.map((playerInfo,index)=>{
                     return (
                         <PlayerInfobar key={index}>
-                            <span>{playerInfo.name}</span>
-                            <span>{playerInfo.victory}</span>
-                            <span>{playerInfo.defeat}</span>
+                            <span>{playerInfo.Name}</span>
+                            <span>{playerInfo.Victory}</span>
+                            <span>{playerInfo.Defeat}</span>
                         </PlayerInfobar>
                     )
                 })}

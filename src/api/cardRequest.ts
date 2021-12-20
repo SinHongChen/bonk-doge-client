@@ -1,9 +1,14 @@
 import request from "utils/request";
 import { AxiosResponse, AxiosRequestConfig } from "axios";
-import { CardInfo } from "types/api";
+import { 
+    CardInfo,
+    Attribute,
+    Nature,
+    Race
+} from "types/api";
 
 export const getCardInfosRequest = async (
-    sessionId:string,
+    loginId:string,
     keyword?:string,
     category?:"Role" | "Effect",
 ):Promise<CardInfo[]> =>{
@@ -14,6 +19,7 @@ export const getCardInfosRequest = async (
                 Name
                 Category
                 Img
+                Img_Url
                 Effect_Assert
                 Effect_Description
                 Nature_ID
@@ -44,10 +50,87 @@ export const getCardInfosRequest = async (
         data:data,
         headers: { 
             'Content-Type': 'application/json',
-            "session-id":sessionId
+            "session-id":loginId
         }
     }
     let response:AxiosResponse<any> = await request<any>(config);
     let cardInfos:CardInfo[] = response.data.data.CardList;
     return cardInfos;
 }
+
+
+export const getNatureList = async (
+    loginId:string
+):Promise<Nature[]>=>{
+    let data = JSON.stringify({
+        query: `query {
+            NatureList{
+                ID
+                Name
+            }
+        }`,
+        variables: {}
+    });
+    let config:AxiosRequestConfig = {
+        method: 'POST',
+        data : data,
+        headers: { 
+            'Content-Type': 'application/json',
+            "session-id":loginId
+        }
+    }
+    let response:AxiosResponse<any> = await request<any>(config);
+    let natureList:Nature[] = response.data.data.NatureList;
+    return natureList;
+}
+
+export const getAttributeList = async (
+    loginId:string
+):Promise<Attribute[]>=>{
+    let data = JSON.stringify({
+        query: `query {
+            AttributeList{
+                ID
+                Name
+            }
+        }`,
+        variables: {}
+    });
+    let config:AxiosRequestConfig = {
+        method: 'POST',
+        data : data,
+        headers: { 
+            'Content-Type': 'application/json',
+            "session-id":loginId
+        }
+    }
+    let response:AxiosResponse<any> = await request<any>(config);
+    let attributeList:Attribute[] = response.data.data.AttributeList;
+    return attributeList;
+}
+
+export const getRaceList = async (
+    loginId:string
+):Promise<Race[]>=>{
+    let data = JSON.stringify({
+        query: `query {
+            RaceList{
+                ID
+                Name
+            }
+        }`,
+        variables: {}
+    });
+    let config:AxiosRequestConfig = {
+        method: 'POST',
+        data : data,
+        headers: { 
+            'Content-Type': 'application/json',
+            "session-id":loginId
+        }
+    }
+    let response:AxiosResponse<any> = await request<any>(config);
+    let raceList:Race[] = response.data.data.RaceList;
+    return raceList;
+}
+

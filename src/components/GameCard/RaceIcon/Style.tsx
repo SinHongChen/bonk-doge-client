@@ -9,5 +9,5 @@ export const RaceIconContainer = styled.div`
     width: 22px;
     height: 22px;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
 `

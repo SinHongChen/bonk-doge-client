@@ -2,7 +2,7 @@ import request from "utils/request";
 import { AxiosResponse, AxiosRequestConfig } from "axios";
 import { UserInfo } from "types/api";
 
-export const getUserInfoRequest = async (sessionId:string):Promise<UserInfo>=>{
+export const getUserInfoRequest = async (loginId:string):Promise<UserInfo>=>{
     let data = JSON.stringify({
         query: `query {
             UserInfo{
@@ -10,6 +10,8 @@ export const getUserInfoRequest = async (sessionId:string):Promise<UserInfo>=>{
                 Name
                 Email
                 Picture_Url
+                Victory
+                Defeat
             }
         }`,
         variables: {}
@@ -19,7 +21,7 @@ export const getUserInfoRequest = async (sessionId:string):Promise<UserInfo>=>{
         data : data,
         headers: { 
             'Content-Type': 'application/json',
-            "session-id":sessionId
+            "session-id":loginId
         }
     }
     let response:AxiosResponse<any> = await request<any>(config);
@@ -27,7 +29,32 @@ export const getUserInfoRequest = async (sessionId:string):Promise<UserInfo>=>{
     return user;
 }
 
-export const logoutRequest = async (sessionId:string) => {
+export const getUserInfosRequest = async (loginId:string):Promise<UserInfo[]>=>{
+    let data = JSON.stringify({
+        query: `query {
+            UserList{
+                ID
+                Name
+                Victory
+                Defeat
+            }
+        }`,
+        variables: {}
+    });
+    let config:AxiosRequestConfig = {
+        method: 'POST',
+        data : data,
+        headers: { 
+            'Content-Type': 'application/json',
+            "session-id":loginId
+        }
+    }
+    let response:AxiosResponse<any> = await request<any>(config);
+    let userInfos:UserInfo[] = response.data.data.UserList;
+    return userInfos;
+}
+
+export const logoutRequest = async (loginId:string) => {
     let data = JSON.stringify({
         query: `mutation {
             UserLogout
@@ -39,7 +66,7 @@ export const logoutRequest = async (sessionId:string) => {
         data : data,
         headers: { 
             'Content-Type': 'application/json',
-            "session-id":sessionId
+            "session-id":loginId
         }
     }
     let response:AxiosResponse<any> = await request<any>(config);

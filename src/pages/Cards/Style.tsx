@@ -4,7 +4,7 @@ import { deviceMedia } from "styles/Device";
 export const CardsContainer = styled.div`
     position: relative;
     display: grid;
-    grid-template-rows: 50px 30px 1fr;
+    grid-template-rows: 50px 1fr;
     grid-gap: 15px;
     height: 100%;
     width: 100%;
@@ -16,7 +16,7 @@ export const SearchForm = styled.form`
     align-items: center;
     justify-items: center;
     background-color: var(--bg-color-2);
-    max-width: 450px;
+    max-width: 650px;
     width: 100%;
     height: 46px;
     border:1px solid var(--border-color-1);
@@ -35,23 +35,25 @@ export interface CategorySelectorProps{
 }
 
 export const CategorySelector = styled.label<CategorySelectorProps>`
-    width:80px;
+    width:60px;
     height:32px;
-    color:var(--text-color-1);
+    //color:var(--text-color-1);
     display: flex;
     align-items: center;
     justify-content: center;
     letter-spacing: 2px;
     border-radius: 0.2em;
-    border:1px solid var(--border-color-1);
+    /* border:1px solid var(--border-color-1); */
 
-    background: ${props => props.isSelected && "var(--bg-color-2)"} ;
-    box-shadow: ${props => props.isSelected && "1px 2px 3px 1px black"};
+    //background: ${props => props.isSelected && "var(--bg-color-2)"} ;
+    //box-shadow: ${props => props.isSelected && "1px 2px 3px 1px black"};
+    color: ${props => props.isSelected ? "var(--text-color-3)" : "var(--text-color-1)"};
 
     &:hover{
         cursor: pointer;
-        background: ${props => props.isSelected ? "var(--bg-color-1)" : "var(--bg-color-2)"} ;
-        box-shadow: 1px 2px 3px 1px black;
+        color:var(--text-color-3);
+        //background: ${props => props.isSelected ? "var(--bg-color-1)" : "var(--bg-color-2)"} ;
+        //box-shadow: 1px 2px 3px 1px black;
     }
 ` 
 
@@ -62,10 +64,10 @@ export const CategoryCheckbox = styled.input.attrs({
 `
 
 export const SearchIcon = styled.div`
-    font-size: 20px;
+    font-size: 18px;
     color:var(--text-color-1);
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     display: flex;
     align-items: center;
     justify-items: center;

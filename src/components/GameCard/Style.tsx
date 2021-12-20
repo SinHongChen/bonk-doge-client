@@ -53,6 +53,7 @@ export const Header = styled.div`
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    height: 30px;
     box-shadow: 2px 2px 8px 1px rgba(0,0,0,0.6);
     padding: 5px 8px;
     border-radius: 0.2em;
@@ -60,6 +61,11 @@ export const Header = styled.div`
 
 export const DisplayNamebar = styled.h5`
     letter-spacing: 1px;
+    color: white;
+    padding:0px;
+    margin:0px;
+    font-weight: bold;
+    font-size:13px;
 `
 
 export const NatureInfobar = styled.div`
@@ -93,7 +99,7 @@ export const RaceInfobar = styled.div`
 `
 
 export const EffectDescriptionbar = styled.div`
-    font-size: 0.8em;
+    font-size: 12px;
     min-height: 60px;
     max-height: 60px;
     overflow: auto;

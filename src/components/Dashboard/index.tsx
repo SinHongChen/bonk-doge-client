@@ -2,41 +2,40 @@ import React,{ useLayoutEffect,useState,useEffect } from 'react'
 
 import Nvabar,{ NavLinkInfo } from "./Nvabar";
 import { UserNameBar,AccountInfoBar,SignOutBtn,DashboardContainer,MenuContainer,MainContainer,Avator,MenuCloseBtn,MenuOpenBtn } from "./Style";
-import { FcBusinessman,FcOpenedFolder,FcHome,FcBriefcase,FcSupport } from "react-icons/fc";
-import { AiOutlineClose,AiOutlineMenu } from "react-icons/ai";
+import { AiOutlineClose,AiOutlineMenu,AiOutlineUser,AiFillFolderOpen ,AiOutlineHome} from "react-icons/ai";
 import { useSelector } from 'react-redux';
-import { selectImgUrl,selectName } from "reducer/userReducer";
+import { selectUserInfo } from "reducer/userReducer";
 import { useLocation,useNavigate } from 'react-router-dom';
 import { useCookie } from "hooks";
 import { getUserInfoRequest } from "api/userRequest";
 import { useDispatch } from 'react-redux';
-import { setImgUrl,setEmal,setName } from "reducer/userReducer";
+import { setUserInfo } from "reducer/userReducer";
 import { UserInfo } from "types/api";
 import { RiLogoutBoxLine } from "react-icons/ri";
 
 const nvaLinkInfos:NavLinkInfo[] = [
     {
-        displayName:"Account",
+        displayName:"玩家資訊",
         url:"/account",
-        icon:<FcBusinessman/>
+        icon:<AiOutlineUser/>
     },
     {
-        displayName:"Deck",
-        url:"/deckManage",
-        icon:<FcBriefcase/>
+        displayName:"牌組",
+        url:"/deck",
+        icon:<AiFillFolderOpen/>
     },
     {
-        displayName:"Lobby",
+        displayName:"遊戲大廳",
         url:"/gamesLobby",
-        icon:<FcHome/>
+        icon:<AiOutlineHome/>
     },
     {
-        displayName:"Cards",
+        displayName:"所有卡牌",
         url:"/cards",
-        icon:<FcOpenedFolder/>
+        icon:<AiFillFolderOpen/>
     },
     {
-        displayName:"Logout",
+        displayName:"登出",
         url:"/logout",
         icon:<RiLogoutBoxLine/>
     }
@@ -48,26 +47,18 @@ export interface DashboardProps{
 
 const Dashboard = ({element}:DashboardProps) => {
     const [loginId,setLoginId] = useCookie("login-id","");
-
+    const userInfo:UserInfo = useSelector(selectUserInfo);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();
 
-    const userImgUrl = useSelector(selectImgUrl);
-    const userName = useSelector(selectName);
     const [menuCollapse,setMenuCollaps] = useState(false);
-
-    const setUserInfo = (userLogin:UserInfo)=>{
-        dispatch(setEmal(userLogin.Email));
-        dispatch(setImgUrl(userLogin.Picture_Url));
-        dispatch(setName(userLogin.Name));
-    }
 
     const loggedValid = async (loginId:string)=>{
         await getUserInfoRequest(loginId)
         .then((userInfo)=>{
             if(userInfo){
-                setUserInfo(userInfo)
+                dispatch(setUserInfo(userInfo))
             }else{
                 setLoginId("");
                 navigate("/login");
@@ -95,8 +86,12 @@ const Dashboard = ({element}:DashboardProps) => {
             </MenuOpenBtn>
             <MenuContainer isOpen={menuCollapse}>
                 <AccountInfoBar>
-                    <Avator src={userImgUrl}/>
-                    <UserNameBar>{userName}</UserNameBar>
+                    {userInfo?.Picture_Url &&
+                        <Avator src={userInfo.Picture_Url}/>
+                    }
+                    {userInfo?.Name &&
+                        <UserNameBar>{userInfo.Name}</UserNameBar>
+                    }
                 </AccountInfoBar>
                 <MenuCloseBtn onClick={()=>{setMenuCollaps(false)}}>
                     <AiOutlineClose/>

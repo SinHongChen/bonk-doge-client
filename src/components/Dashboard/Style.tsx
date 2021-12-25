@@ -14,12 +14,12 @@ export const DashboardContainer = styled.div`
         grid-template-columns: 190px 1fr;
     }
     @media ${deviceMedia.tablet}{        
-        grid-template-columns: 80px 1fr;
+        grid-template-columns: 60px 1fr;
     }
     @media ${deviceMedia.mobile}{        
         grid-template-columns: 1fr;
         min-height: 100vh;
-        height: fit-content;
+        height: 100vh;
         padding: 3%;
     }
 `
@@ -39,6 +39,8 @@ export const MenuContainer = styled.div<MenuContainerProps>`
     padding: 30px 0px;
     grid-gap: 40px;
     border-right: 1px solid var(--border-color-1);
+    position: relative;
+    z-index: var(--navbar-index);
 
     @media ${deviceMedia.mobile}{    
         height:100vh;  
@@ -130,8 +132,8 @@ export const Avator = styled.img`
         height: 80px;    
     }
     @media ${deviceMedia.tablet}{        
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
     }
 
 `
@@ -149,6 +151,10 @@ export const AccountInfoBar = styled.div`
 
 export const UserNameBar = styled.div`
     color:var(--text-color-1);
+    @media ${deviceMedia.tablet}{        
+        display: none;
+    }
+
 `
 
 export const SignOutBtn = styled.a`

@@ -5,7 +5,8 @@ import {
     Logo,
     PlayerInfobar,
     PlayerInfosSection,
-    PlayerInfosHeader
+    PlayerInfosHeader,
+    Header
 } from "./Style";
 
 export interface RankListProps{
@@ -15,12 +16,17 @@ export interface RankListProps{
 const RankList = ({players}:RankListProps) => {
     return (
         <RankListContainer>
-            <Logo src={"./images/logo/rank.png"}/>
+            <Header>
+                <Logo src={"./images/logo/rank.png"}/>
+                <h1>Rank</h1>
+            </Header>
+
+            
             <PlayerInfosSection>
                 <PlayerInfosHeader>
-                    <span>Name</span>
-                    <span>Victory</span>
-                    <span>Defeat</span>
+                    <h3>Name</h3>
+                    <h3>Victory</h3>
+                    <h3>Defeat</h3>
                 </PlayerInfosHeader>
                 {players.map((playerInfo,index)=>{
                     return (

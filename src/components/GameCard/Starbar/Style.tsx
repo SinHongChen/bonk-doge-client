@@ -8,7 +8,7 @@ export const StarbarContainer = styled.div`
     overflow: hidden;
     width: 100%;
     grid-gap: 6px;
-    height: 15px;
+    height: 25px;
     width: 100%;
     padding: 0px 5px;
 ` 

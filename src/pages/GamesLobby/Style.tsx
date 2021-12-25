@@ -1,39 +1,43 @@
 import styled from "styled-components";
 import { deviceMedia } from "styles/Device";
 import { Link } from "react-router-dom";
+import { DeckCardsViewer } from "components";
+import { ScrollbarCss } from "styles/Scrollbar";
 
 export const GamesLobbyContainer = styled.div`
-    display: grid;
-    grid-gap: 10px;
-    width: 100%;
-    height: 100%;
-
-    @media ${deviceMedia.desktop}{        
-        grid-template-columns:  300px 1fr ;
-    }
-    @media ${deviceMedia.tablet}{        
-        grid-template-columns:  1fr;
-        grid-template-rows: 400px 1fr;
-    }
-    @media ${deviceMedia.mobile}{        
-        grid-template-columns:  1fr ;
-        grid-template-rows: 300px 1fr;
-    }
-`
-
-
-export const Main = styled.div`
     width: 100%;
     height: 100%;
     border:1px solid var(--border-color-1);
     background-color: var(--bg-color-2);
     border-radius: 0.2em;
-    padding: 10px;
+    ${ScrollbarCss};
+    position: relative;
+`
+
+export const GameStartSection = styled.div`
+    background:rgba(0,0,0,0.8);
+    filter: blur(10px);
+    position: absolute;
+    z-index:2;
+    width:100%;
+    height:100%;
+`
+
+export const DeckCards = styled(DeckCardsViewer)`
+    height: fit-content;
+    border:none;
+    padding: 10px 0px;
+`
+
+export const DeckSelectSection = styled.div`
+    background:rgba(0,0,0,0);
+    position: absolute;
+    z-index:3;
+    width:100%;
+    height:100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    grid-gap: 10px;
+    justify-content: center;
 `
 
 export const StartLink = styled(Link)`
@@ -44,11 +48,13 @@ export const StartLink = styled(Link)`
     font-size: 24px;
     width: 100%;
     text-transform: uppercase;
-    padding: 10px 0px;
     border-radius: 0.1em;
     border:1px solid var(--border-color-1);
     text-decoration: none;
-    text-align:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
     &:hover{
         background-color: var(--bg-color-2);
         cursor: pointer;

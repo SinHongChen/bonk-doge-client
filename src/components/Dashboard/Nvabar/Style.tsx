@@ -15,10 +15,12 @@ export interface NvaLinkProps {
 }
 
 export const Icon = styled.div`
-    font-size: 28px;
-    width: 28px;
-    height: 36px;
-
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     @media ${deviceMedia.mobile}{  
         display: none;     
     }
@@ -26,17 +28,18 @@ export const Icon = styled.div`
 
 export const LinkDisplayName = styled.h2`
     color:var(--text-color-1);
+    font-family: 'Bangers', cursive;
+    font-family: 'Bebas Neue', cursive;
+    font-family: 'Fuzzy Bubbles', cursive;
+    font-family: 'Lobster', cursive;
+    font-family: 'Moo Lah Lah', cursive;
+    font-family: 'Noto Serif TC', serif;
+    font-family: 'Sora', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
 
-    @media ${deviceMedia.desktop}{   
-        font-size: 18px;
-        font-weight:bold;    
-        letter-spacing: 3px;
-    }
-    @media ${deviceMedia.tablet}{
+    @media ${deviceMedia.tablet}{   
         display: none;
-    }
-    @media ${deviceMedia.mobile}{  
-        letter-spacing:5px;
     }
 `
 
@@ -53,7 +56,8 @@ export const NvaLink = styled(Link)<NvaLinkProps>`
     border: ${props => props.isSelected ? "1px solid var(--border-color-1)" : ""};
     position: relative;
     color:var(--text-color-1);
-    
+
+
     @media ${deviceMedia.mobile}{        
     
     }

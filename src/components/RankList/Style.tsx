@@ -1,22 +1,28 @@
 import styled from "styled-components";
 
 export const RankListContainer = styled.div`
-    border:1px solid var(--border-color-1);
     background-color: var(--bg-color-2);
     width: 100%;
     height: 100%;
-    border-radius: 0.2em;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding:20px 10px;
+    justify-content: center;
+    padding:20px 0px;
     grid-gap: 30px;
     overflow: auto;
 `
 
+export const Header = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-gap: 25px;
+    color:var(--text-color-1);
+`
+
 export const Logo = styled.img`
-    width: 80px;
+    width: 45px;
     height: auto;
     object-fit: contain;
 `
@@ -27,6 +33,7 @@ export const PlayerInfosSection = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border:1px solid var(--border-color-1);
 `
 
 export const PlayerInfosHeader = styled.div`
@@ -51,9 +58,11 @@ export const PlayerInfobar = styled.div`
     color:var(--text-color-1);
     padding:8px 10px;
     background-color: var(--bg-color-1);
+    border: 1px solid var(--bg-color-1);
+
     &:hover{
-        background-color: var(--hover-color-1);
-        cursor: pointer;
+        color: var(--text-color-2);
+        border: 1px solid var(--text-color-2);
     }
 `
 

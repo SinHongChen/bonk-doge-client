@@ -1,74 +1,97 @@
-import React from 'react';
+import React from "react";
 
-import { 
-    GameCardContainer,
-    Image,
-    Header,
-    DisplayNamebar,
-    Content,
-    RaceInfobar,
-    EffectDescriptionbar,
-    Abilitybar,
-    NatureInfobar
+import {
+  GameCardContainer,
+  Image,
+  Header,
+  DisplayNamebar,
+  Content,
+  RaceInfobar,
+  EffectDescriptionbar,
+  Abilitybar,
+  ImageLoading,
+  NatureInfobar,
 } from "./Style";
 import { CardInfo } from "types/api";
 
 import Starbar from "./Starbar";
 import RaceIcon from "./RaceIcon";
+import { useState } from "react";
 
 export interface GameCardProps {
-    card:CardInfo,
-    style?:React.CSSProperties,
-    className?:string
+  cardInfo: CardInfo;
+  style?: React.CSSProperties;
+  className?: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
-const GameCard = ({card,style,className}:GameCardProps) => {
-    const dispatchTheme = (categoryName:string)=>{
-        switch(categoryName){
-            case "Role":
-                return "DeepSpace";
-            case "Effect":
-                return "PurpleWhite";
-            default:
-                throw Error();
+const GameCard = ({ cardInfo, style, className, onClick }: GameCardProps) => {
+  const [imageLoad, setImageLoad] = useState(false);
+  const dispatchTheme = (categoryName: string) => {
+    switch (categoryName) {
+      case "Role":
+        return "DeepSpace";
+      case "Effect":
+        if (cardInfo.Nature?.ID === "1") {
+          return "Harvey";
+        } else {
+          return "PurpleWhite";
         }
+      default:
+        throw Error();
     }
+  };
 
-    return (
-        <GameCardContainer className={className} style={style} theme={dispatchTheme(card.Category)}>
+  return (
+    <>
+      {cardInfo && (
+        <>
+          <GameCardContainer
+            className={className}
+            style={style}
+            theme={dispatchTheme(cardInfo.Category)}
+            onClick={onClick}
+          >
             <Header>
-                <DisplayNamebar>{card.Name}</DisplayNamebar>
-                {card.Category === "Role" &&
-                    <RaceIcon raceName={card.Attribute?.Name}/>
-                }
+              <DisplayNamebar>{cardInfo.Name}</DisplayNamebar>
+              {cardInfo.Category === "Role" && (
+                <RaceIcon raceName={cardInfo.Attribute?.Name} />
+              )}
             </Header>
 
-            {card.Category === "Role" ?
-                <Starbar number={card.Star ? card.Star : 0}/> : 
-                <NatureInfobar>【{card.Nature?.Name}】</NatureInfobar>
-            }
-            
-            <Image imgSrc={card.Img_Url}/>
+            {cardInfo.Category === "Role" ? (
+              <Starbar number={cardInfo.Star ? parseInt(cardInfo.Star) : 0} />
+            ) : (
+              <NatureInfobar>【{cardInfo.Nature?.Name}】</NatureInfobar>
+            )}
+              <Image
+                src={cardInfo.Img_Url}
+                isShow={imageLoad}
+                onLoad={() => {
+                  setImageLoad(true);
+                }}
+              />
+              {!imageLoad && <ImageLoading>LOADING...</ImageLoading>}
             <Content>
-                {card.Category === "Role" &&
-                    <RaceInfobar>
-                        {card.Race?.Name}
-                    </RaceInfobar>
-                }
+              {cardInfo.Category === "Role" && (
+                <RaceInfobar>{cardInfo.Race?.Name}</RaceInfobar>
+              )}
 
-                <EffectDescriptionbar>
-                    {card.Effect_Description}
-                </EffectDescriptionbar>
+              <EffectDescriptionbar>
+                {cardInfo.Effect_Description}
+              </EffectDescriptionbar>
 
-                {card.Category === "Role" && 
-                    <Abilitybar>
-                        {`ATK/${card.Attack} DEF/${card.Defense}`}
-                    </Abilitybar>
-                }
-
+              {cardInfo.Category === "Role" && (
+                <Abilitybar>
+                  {`ATK/${cardInfo.Attack} DEF/${cardInfo.Defense}`}
+                </Abilitybar>
+              )}
             </Content>
-        </GameCardContainer>
-    )
-}
+          </GameCardContainer>
+        </>
+      )}
+    </>
+  );
+};
 
-export default GameCard
+export default GameCard;

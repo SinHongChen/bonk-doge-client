@@ -7,10 +7,6 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0px;
         box-sizing:border-box;
         /* font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif; */
-        font-family: 'Bangers', cursive;
-        font-family: 'Fuzzy Bubbles', cursive;
-        font-family: 'Lobster', cursive;
-        font-family: 'Noto Serif TC', serif;
     }
 
     :root {
@@ -19,6 +15,7 @@ export const GlobalStyle = createGlobalStyle`
         --purple-white:linear-gradient(to left, rgb(82, 74, 197), rgb(127, 128, 206));
         --decent:linear-gradient(to right, rgb(76, 161, 175), rgb(196, 224, 229));
         --sea-blue:linear-gradient(to right, rgb(43, 88, 118), rgb(78, 67, 118));
+        --harvey:linear-gradient(to left, rgb(15, 32, 39), rgb(32, 58, 67), rgb(44, 83, 100));
 
         --bg-color-1: #191820;
         --bg-color-2: rgb(30, 29, 37);
@@ -31,7 +28,8 @@ export const GlobalStyle = createGlobalStyle`
         --border-color-1: rgb(64, 64, 70);
         --box-shadow-color-1: rgba(0,0,0,0.5);
 
-        --navbar-index:3;
+        --navbar-index:2;
+        --popup-index:3;
     }
     
 `

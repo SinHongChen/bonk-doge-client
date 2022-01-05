@@ -5,7 +5,7 @@ import {
   Header,
   UploadingAnimation,
   UploadingSection,
-  ErrorMsg
+  ErrorMsg,
 } from "./Style";
 import { GameCardsViewer } from "components";
 import { Input } from "components/Basic";
@@ -21,6 +21,13 @@ import { useNavigate } from "react-router-dom";
 import { animationInfos } from "components/Lottie";
 
 const DeckCreate = () => {
+  const minCardNumber = parseInt(
+    `${process.env.REACT_APP_DECK_MIN_CARD_NUMBER}`
+  );
+  const maxCardNumber = parseInt(
+    `${process.env.REACT_APP_DECK_MAX_CARD_NUMBER}`
+  );
+
   const navigate = useNavigate();
   const [loginId, setLoginId] = useCookie("login-id", "");
   const userInfo: UserInfo = useSelector(selectUserInfo);
@@ -35,13 +42,17 @@ const DeckCreate = () => {
   const deckNameRef = useRef<HTMLInputElement>(null);
 
   const validate = (cards: string[], deckName: string) => {
-    if (deckName.length > 0 && cards.length > 0 && cards.length < 40) {
+    if (
+      deckName.length > 0 &&
+      cards.length > minCardNumber &&
+      cards.length < maxCardNumber
+    ) {
       return true;
     }
     return false;
   };
 
-  const getCreateDeckParam = () => {
+  const getCreateDeckParams = () => {
     let cards = selectCardInfos
       .filter((data) => data.isSelected)
       .map((data) => data.UUID);
@@ -76,11 +87,11 @@ const DeckCreate = () => {
   };
 
   const onSubmitHandler: React.MouseEventHandler<HTMLButtonElement> = () => {
-    let { cards, deckName } = getCreateDeckParam();
+    let { cards, deckName } = getCreateDeckParams();
     if (validate(cards, deckName)) {
       createDeck(deckName, cards);
     } else {
-       setEnabledErrorMsg(true);
+      setEnabledErrorMsg(true);
     }
   };
 
@@ -101,10 +112,7 @@ const DeckCreate = () => {
       {!isUploading && (
         <>
           <Header>
-            <Input
-              valueRef={deckNameRef}
-              placeholder={"牌組名稱"}
-            />
+            <Input valueRef={deckNameRef} placeholder={"牌組名稱"} />
             <DeckToolbar
               onCancel={() => {
                 navigate(`/deck`);
@@ -112,9 +120,9 @@ const DeckCreate = () => {
               onSubmit={onSubmitHandler}
             />
           </Header>
-          {enabledErrorMsg &&
-            <ErrorMsg>* 請至少選擇一張卡牌,牌組名稱至少大於一個字</ErrorMsg>
-          }
+          {enabledErrorMsg && (
+            <ErrorMsg>{`* 請至少選擇 ${minCardNumber} 張卡牌,不得選取超過 ${maxCardNumber} 張卡牌,牌組名稱至少大於一個字`}</ErrorMsg>
+          )}
           <GameCardsViewer
             onSelectedChange={setSelectCardInfos}
             enableEdit={true}

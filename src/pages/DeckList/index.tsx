@@ -19,13 +19,17 @@ const DeckList = () => {
         navigate(`/deck/${deckId}`);
     }
 
-    useEffect(()=>{
+    const initialDeckInfos = ()=>{
         setIsSearching(true);
+        getDeckInfosRequest(loginId,userInfo.ID)
+        .then(setDeckInfos)
+        .then(()=>{setIsSearching(false)})
+        .catch(console.error);
+    }
+
+    useEffect(()=>{
         if(userInfo?.ID){
-            getDeckInfosRequest(loginId,userInfo.ID)
-            .then(setDeckInfos)
-            .then(()=>{setIsSearching(false)})
-            .catch(console.error);
+            initialDeckInfos();
         }
     },[userInfo]);
 
@@ -36,6 +40,7 @@ const DeckList = () => {
                 isLoading={isSearching}
                 onDeckClick={onDeckClick}
                 deckInfos={deckInfos}
+                remindMsg={"點擊進行卡牌編輯"}
             />
         </DeckListContainer>
     )

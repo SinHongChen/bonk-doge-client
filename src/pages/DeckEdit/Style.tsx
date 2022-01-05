@@ -22,12 +22,12 @@ export const Header = styled.div`
 
 export const DeleteConfirmSection = styled.div`
     width: 100%;
-    background-color: var(--bg-color-2);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
     grid-gap: 20px;
+    padding:20px;
     border-radius: 0.2em;
     color:var(--text-color-1);
 `

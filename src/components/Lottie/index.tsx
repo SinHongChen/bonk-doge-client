@@ -13,6 +13,7 @@ export const animationInfos = {
     "database" : { data: require("./database-animation.json"), displayName: "database" },
     "loading" : { data: require("./loading-animation.json"), displayName: "loading" },
     "loading2" : { data: require("./loading-animation2.json"), displayName: "loading2" },
+    "medal" : { data: require("./medal-animation.json"), displayName: "medal" },
     "success" : { data: require("./success-animation.json"), displayName: "success" },
     "fail" : { data: require("./fail-animation.json"), displayName: "fail" },
     "uploading" : { data: require("./uploading-file-animation.json"), displayName: "uploading" },
@@ -24,10 +25,11 @@ export interface LottieContainerProps{
     className?:string,
     style?:React.CSSProperties,
     isShow?:boolean,
-    autoplay?:boolean
+    autoplay?:boolean,
+    loop?:boolean
 }
 
-const Lottie = ({ animation, speed = 1, className,style,autoplay,isShow = true }:LottieContainerProps) => {
+const Lottie = ({ animation, speed = 1, className,style,autoplay,isShow = true,loop = true }:LottieContainerProps) => {
 
     const element = useRef<HTMLDivElement>(null);
 
@@ -35,11 +37,10 @@ const Lottie = ({ animation, speed = 1, className,style,autoplay,isShow = true }
         lottie.loadAnimation({
             container: element.current as HTMLDivElement,
             renderer: 'svg',
-            loop: true,
+            loop: loop,
             autoplay: autoplay,
             animationData: animation.data,
         })
-
     }, []);
 
     useEffect(()=>{

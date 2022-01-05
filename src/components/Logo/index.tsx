@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import { LogoContainer } from "./Style";
+import { LogoContainer,LogoWrap } from "./Style";
 
 export interface LogoProps {
     imgSrc?:string;
@@ -11,7 +11,9 @@ export interface LogoProps {
 
 const Logo = ({imgSrc,width,height,style,className}:LogoProps) => {
     return (
-        <LogoContainer className={className} style={style} imgSrc={imgSrc} width={width} height={height}/>
+        <LogoWrap className={className} style={style} width={width} height={height}>
+            <LogoContainer  imgSrc={imgSrc} />
+        </LogoWrap>
     )
 }
 

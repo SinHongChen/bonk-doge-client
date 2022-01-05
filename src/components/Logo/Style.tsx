@@ -6,17 +6,28 @@ export interface LogoProps {
     imgSrc?:string
 }
 
-export const LogoContainer = styled.div<LogoProps>`
+export interface LogoWrapProps{
+    width?:string,
+    height?:string
+}
+
+export const LogoWrap = styled.div<LogoWrapProps>`
     height: ${props => props.height ? props.height : "240px"};
     width: ${props => props.width ? props.width : "240px"};
-    background: linear-gradient(#f5ca6e 0%, #edbe58 10%, #e4c071 50%, #f0b22e 100%);
-    border-radius: 50%;
+`
+
+export const LogoContainer = styled.div<LogoProps>`
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to right,#59595e,rgb(30, 29, 37));
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    border: 1px solid rgb(242, 153, 74);
-    
+    border-radius:50%;
+    box-shadow:
+        inset 1px 1px 3px 1px black,
+        inset 1px 1px 3px 1px black;
+
     &:before{
         content: "";
         background-image:${props => props.imgSrc ? `url(${props.imgSrc})` : "url(./logo.png)"};

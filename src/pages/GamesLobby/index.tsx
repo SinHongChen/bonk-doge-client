@@ -1,55 +1,119 @@
-import React,{ useEffect,useState } from 'react';
-import { 
-    GamesLobbyContainer,
-    DeckSelectSection,
-    DeckCards,
-    StartLink,
-    GameStartSection
+import React, { useEffect, useState } from "react";
+import {
+  GamesLobbyContainer,
+  Main,
+  DeckCards,
+  BackgroundSection,
+  TopRankList,
+  ShowSelectedDeckSection,
+  StartSection,
+  StartBtn,
+  TeachBtn,
+  CardListSection,
+  SelectedDeckName,
+  UnCreateDeckRemindMsg,
+  SmallLogo
 } from "./Style";
-import { PlayerInfo,UserInfo,DeckInfo } from "types";
-import { getUserInfosRequest } from 'api/userRequest';
-import { useSelector } from 'react-redux';
+import { PlayerInfo, UserInfo, DeckInfo } from "types";
+import { useSelector } from "react-redux";
 import { selectUserInfo } from "reducer/userReducer";
 import { useCookie } from "hooks";
 import { convertUserInfosToPlayerInfos } from "utils/convertors";
-import { RankList } from "components";
-import { getDeckInfosRequest } from "api/deckRequest";
+import { getUserInfosRequest } from "api/userRequest";
+import { getDeckInfosRequest, getDeckInfoRequest } from "api/deckRequest";
+import { Link, useNavigate } from "react-router-dom";
 
-const GamesLobby = () => {    
-    const [loginId,setLoginId] = useCookie("login-id","");
-    const [players,setPlayers] = useState<PlayerInfo[]>([]);
-    const [selectedDeckId,setSelectedDeckId] = useState<string>("");
-    const [deckInfos,setDeckInfos] = useState<DeckInfo[]>([]);
-    const userInfo:UserInfo = useSelector(selectUserInfo);
+const GamesLobby = () => {
+  const navigate = useNavigate();
+  const [loginId, setLoginId] = useCookie("login-id", "");
+  const [players, setPlayers] = useState<PlayerInfo[]>([]);
+  const [deckInfos, setDeckInfos] = useState<DeckInfo[]>([]);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [selectedDeckInfo, setSelectedDeckInfo] = useState<
+    DeckInfo | undefined
+  >();
+  const userInfo: UserInfo = useSelector(selectUserInfo);
 
-    const onDeckClick = (deckId:string)=>{
-        console.log(deckId);
+  const onDeckClick = (deckId: string) => {
+    initialSelectedDeckInfo(deckId);
+  };
+
+  const initialSelectedDeckInfo = (deckId: string) => {
+    setIsSearching(true);
+    getDeckInfoRequest(loginId, deckId)
+      .then(setSelectedDeckInfo)
+      .then(() => {
+        setIsSearching(false);
+      })
+      .catch(console.error);
+  };
+
+  const initialDeckInfos = () => {
+    getDeckInfosRequest(loginId, userInfo.ID)
+      .then(setDeckInfos)
+      .catch(console.error);
+  };
+
+  const initialPlayers = () => {
+    getUserInfosRequest(loginId)
+      .then(convertUserInfosToPlayerInfos)
+      .then(setPlayers);
+  };
+
+  const onStartClick = () => {
+    if (selectedDeckInfo?.ID) {
+      navigate(`/game?deckId=${selectedDeckInfo?.ID}`);
+    } else {
+      alert("尚未選擇牌組");
     }
+  };
 
-    useEffect(()=>{
-        if(userInfo?.ID){
-            getDeckInfosRequest(loginId,userInfo.ID)
-            .then(setDeckInfos)
-            .catch(console.error);
-        }
-    },[userInfo])
+  useEffect(() => {
+    if (userInfo?.ID) {
+      initialDeckInfos();
+      initialPlayers();
+    }
+  }, [userInfo]);
 
+  return (
+    <GamesLobbyContainer>
+      <BackgroundSection>BONK DOGE GAME</BackgroundSection>
+      <Main>
+        {deckInfos.length > 0 ? (
+          <DeckCards
+            remindMsg={"選擇要對戰的卡牌"}
+            deckInfos={deckInfos}
+            onDeckClick={onDeckClick}
+          />
+        ) : (
+          <UnCreateDeckRemindMsg>
+            <span>建立牌組才可以進行對戰啦 🤬</span>
+            <Link to="/deckCreate">👉👉 來去建立牌組 👈👈</Link>
+          </UnCreateDeckRemindMsg>
+        )}
+        {selectedDeckInfo && selectedDeckInfo?.CardsInfo ? (
+          <ShowSelectedDeckSection>
+            <SelectedDeckName>
+                <SmallLogo/>
+                <span>{selectedDeckInfo.Name}</span>
+            </SelectedDeckName>
+            <CardListSection
+              isLoading={isSearching}
+              cardInfos={selectedDeckInfo.CardsInfo}
+            />
+          </ShowSelectedDeckSection>
+        ) : (
+          <SelectedDeckName>🤬 尚未選擇要對戰的牌組</SelectedDeckName>
+        )}
 
-    useEffect(()=>{
-        getUserInfosRequest(loginId)
-        .then((userInfos)=>convertUserInfosToPlayerInfos(userInfos))
-        .then((playerInfos)=>{setPlayers(playerInfos)});
-    },[])
+        <TopRankList players={[...players]} />
+        <StartSection>
+          <TeachBtn>教學模式</TeachBtn>
+          <StartBtn onClick={onStartClick}>批配對戰</StartBtn>
+        </StartSection>
+      </Main>
+    </GamesLobbyContainer>
+  );
+};
 
-    return (
-        <GamesLobbyContainer>
-            <GameStartSection>
-                <DeckCards  deckInfos={deckInfos} onDeckClick={onDeckClick}/>
-            </GameStartSection>
-            <DeckSelectSection><DeckCards  deckInfos={deckInfos} onDeckClick={onDeckClick}/></DeckSelectSection>
-            {/* <RankList players={players}/> */}
-        </GamesLobbyContainer>
-    )
-}
-
-export default GamesLobby
+export default GamesLobby;

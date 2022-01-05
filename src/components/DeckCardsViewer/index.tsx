@@ -1,49 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   DeckCardsViewerContainer,
   CreateDeckCard,
   LoadingSection,
   LoadingLottie,
+  GridViewSection,
+  ScrollViewSection,
 } from "./Style";
-import { getCardInfosRequest } from "api/cardRequest";
-import { useCookie } from "hooks";
-import { CardInfo, DeckInfo } from "types/api";
+import { DeckInfo } from "types/api";
 import { DeckCard } from "components";
 import { animationInfos } from "components/Lottie";
 
 export interface DeckCardsViewerProps {
-  mode?: "view" | "edit";
+  mode?: "gridView" | "edit" | "scrollView";
   isLoading?: boolean;
   deckInfos: DeckInfo[];
   onDeckClick: (deckId: string) => void;
   style?: React.CSSProperties;
   className?: string;
+  remindMsg?:string;
 }
 
 const DeckCardsViewer = ({
   isLoading,
-  mode = "view",
+  mode = "gridView",
   deckInfos,
   onDeckClick,
   style,
   className,
+  remindMsg
 }: DeckCardsViewerProps) => {
-  const [loginId, setLoginId] = useCookie("login-id", "");
-  const [cardInfos, setCardInfos] = useState<CardInfo[]>([]);
-
-  const initialCardInfos = (
-    keyword?: string | undefined,
-    category?: "Role" | "Effect"
-  ) => {
-    getCardInfosRequest(loginId, keyword, category)
-      .then((cardInfos) => setCardInfos([...cardInfos]))
-      .catch(console.error);
-  };
-
-  useEffect(() => {
-    initialCardInfos();
-  }, []);
-
+  const maxDeckNumber = parseInt(`${process.env.REACT_APP_MAX_DECK_NUMBER}`);
+  
   return (
     <DeckCardsViewerContainer style={style} className={className}>
       {isLoading && (
@@ -52,8 +40,8 @@ const DeckCardsViewer = ({
         </LoadingSection>
       )}
       {!isLoading && (
-        <>
-          {deckInfos.length < 4 && mode === "edit" && (
+        <GridViewSection>
+          {deckInfos.length < maxDeckNumber && mode === "edit" && (
             <CreateDeckCard to="/deckCreate">新增</CreateDeckCard>
           )}
           {deckInfos.map((deckInfo, index) => {
@@ -62,13 +50,13 @@ const DeckCardsViewer = ({
                 onClick={() => {
                   onDeckClick(deckInfo.ID);
                 }}
+                remindMsg={remindMsg}
                 key={index}
                 deckInfo={deckInfo}
-                cardInfo={cardInfos[0]}
               />
             );
           })}
-        </>
+        </GridViewSection>
       )}
     </DeckCardsViewerContainer>
   );

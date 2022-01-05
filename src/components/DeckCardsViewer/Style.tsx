@@ -5,18 +5,8 @@ import { ScrollbarCss } from "styles/Scrollbar";
 import Lottie from "components/Lottie";
 
 export const DeckCardsViewerContainer = styled.div`
-  display: flex;
-  grid-column-gap: 80px;
-  grid-row-gap: 40px;
-  border: 1px solid var(--border-color-1);
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  ${ScrollbarCss};
-  padding: 20px;
 `;
 
 export const CreateDeckCard = styled(Link)`
@@ -27,9 +17,9 @@ export const CreateDeckCard = styled(Link)`
   border-radius: 0.3em;
   position: relative;
   overflow: auto;
-  background: var(--sea-blue);
+  background: linear-gradient(to right,#59595e,rgb(30, 29, 37));
   box-shadow: 1px 1px 6px 1px black;
-  border: 1px solid black;
+  border: 1px solid var(--border-color-1);
   height: 420px;
   min-width: 270px;
   color: var(--text-color-1);
@@ -39,7 +29,7 @@ export const CreateDeckCard = styled(Link)`
   letter-spacing: 3px;
   &:hover {
     cursor: pointer;
-    border: 1px solid var(--text-color-2);
+    box-shadow: 1px 1px 15px 3px black;
   }
 `;
 
@@ -56,4 +46,26 @@ export const LoadingSection = styled.div`
 export const LoadingLottie = styled(Lottie)`
   width:clamp(200px,60vw,400px);
   height:clamp(200px,60vw,400px);
+`
+
+export const GridViewSection = styled.div`
+  display: flex;
+  grid-column-gap: 80px;
+  grid-row-gap: 40px;
+  padding:20px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  ${ScrollbarCss};
+  @media ${deviceMedia.mobile}{    
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+`
+
+export const ScrollViewSection = styled.div`
+
 `

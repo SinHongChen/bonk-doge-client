@@ -1,26 +1,46 @@
-import React,{ useState,useEffect } from 'react';
-import { CardInfo,DeckInfo } from "types/api";
-import { DeckName,DeckCardContainer } from "./Style";
-import { GameCard } from "components";
+import React, { useState, useEffect } from "react";
+import { CardInfo, DeckInfo } from "types/api";
+import {
+  DeckCardContainer,
+  SmallLogo,
+  RemindMsg,
+  RenderToLeftBlock,
+  RenderToRightBlock,
+} from "./Style";
 export interface DeckProps {
-    deckInfo:DeckInfo,
-    cardInfo:CardInfo,
-    collapse?:boolean,
-    isSelected?:boolean,
-    onClick?:React.MouseEventHandler<HTMLDivElement>
+  deckInfo: DeckInfo;
+  isSelected?: boolean;
+  remindMsg?: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
 }
 
+const DeckCard = ({
+  deckInfo,
+  isSelected = false,
+  onClick,
+  remindMsg,
+}: DeckProps) => {
+  const [enabledRemind, setEnabledRemind] = useState(false);
 
-const DeckCard = ({cardInfo,deckInfo,collapse=true,isSelected=false,onClick}:DeckProps) => {
-    
-    return (
-        <DeckCardContainer onClick={onClick} isSelected={isSelected}>
-            <DeckName>
-                {deckInfo.Name}
-            </DeckName>
-            <GameCard style={{transform:"scale(0.9)"}} cardInfo={cardInfo}/>
-        </DeckCardContainer>
-    )
-}
+  return (
+    <DeckCardContainer
+      onMouseOut={() => {
+        setEnabledRemind(false);
+      }}
+      onMouseOver={() => {
+        setEnabledRemind(true);
+      }}
+      onClick={onClick}
+      isSelected={isSelected}
+    >
+      <RenderToLeftBlock index={0}>{deckInfo.Name}</RenderToLeftBlock>
+      <RenderToRightBlock index={1} />
+      <RenderToLeftBlock index={2} />
+      <RenderToRightBlock index={3} />
+      <SmallLogo />
+      {remindMsg && <RemindMsg isShow={enabledRemind}>{remindMsg}</RemindMsg>}
+    </DeckCardContainer>
+  );
+};
 
-export default DeckCard
+export default DeckCard;

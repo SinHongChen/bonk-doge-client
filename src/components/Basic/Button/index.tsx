@@ -1,16 +1,25 @@
-import React from 'react';
-import { DeleteConfirmBtn } from "./Style";
+import React from "react";
+import { SubmitBtn } from "./Style";
 
-export interface ButtonProps{
-    type:"delete" | "submit" | "update" | "link"
+export interface ButtonProps {
+  type: "delete" | "submit" | "update" | "link";
+  children?: React.ReactNode;
+  onClick?:React.MouseEventHandler<HTMLButtonElement>;
+  style?:React.CSSProperties;
+  className?:string;
 }
 
-const Button = ({type}:ButtonProps) => {
-    return (
-        <div>
-            {type === "delete" && <DeleteConfirmBtn/>}
-        </div>
-    )
+const typeColorList = {
+    delete:"red",
+    submit:"var(--text-color-2)",
+    update:"var(--text-color-2)",
+    link:"var(--text-color-2)"
 }
 
-export default Button
+const Button = ({ type,children,onClick,style,className }: ButtonProps) => {
+  return (
+    <SubmitBtn style={style} className={className} onClick={onClick} borderColor={typeColorList[type]}>{children}</SubmitBtn>
+  );
+};
+
+export default Button;

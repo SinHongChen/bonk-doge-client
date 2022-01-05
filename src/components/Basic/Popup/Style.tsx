@@ -20,15 +20,15 @@ export const PopupContainer = styled.div<PopupContainerProps>`
 
 export const Content = styled.div`
     width: clamp(200px,80%,400px);
-    background-color: var(--bg-color-2);
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    grid-gap: 20px;
+    grid-gap: 10px;
     border-radius: 0.2em;
     padding: 20px;
     color:var(--text-color-1);
+    background-color: rgba(0,0,0,0.8);
 `
 
 export const Header = styled.div`
@@ -39,7 +39,7 @@ export const Header = styled.div`
 `
 
 export const Footer = styled.div`
-
+    
 `
 
 export const CloseBtn = styled.button`

@@ -26,6 +26,8 @@ export interface GameCardsViewerProps {
   isLoading?: boolean;
   onCardClick?: (cardId: string) => void;
   onSelectedChange?: (selectCardInfos: SelectCardInfos[]) => void;
+  className?:string,
+  style?:React.CSSProperties
 }
 
 const GameCardsViewer = ({
@@ -35,6 +37,8 @@ const GameCardsViewer = ({
   isLoading = true,
   onCardClick,
   onSelectedChange,
+  className,
+  style
 }: GameCardsViewerProps) => {
   const [selectCardInfos, setSelectCardInfos] = useState<SelectCardInfos[]>([]);
 
@@ -70,7 +74,7 @@ const GameCardsViewer = ({
   }, [cardInfos]);
 
   return (
-    <GameCardsViewerContainer isLoading={isLoading}>
+    <GameCardsViewerContainer className={className} style={style} isLoading={isLoading}>
       {!isLoading && cardInfos.length <= 0 && 
         <EmptySection>Empty</EmptySection>
       }

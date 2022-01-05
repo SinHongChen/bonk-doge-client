@@ -52,10 +52,10 @@ export const GameCardContainer = styled.div<GameCardContainerProps>`
   box-shadow: 1px 1px 4px 1px black;
   color: white;
   width: 260px;
-  height: 415px;
+  height: 416px;
   background: ${(props) => getCardBgColor(props.theme)};
   position: relative;
-  border:1px solid black;
+  border:1px solid var(--border-color-1);
 
 `;
 

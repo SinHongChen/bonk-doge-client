@@ -27,6 +27,7 @@ export interface GameCardProps {
 
 const GameCard = ({ cardInfo, style, className, onClick }: GameCardProps) => {
   const [imageLoad, setImageLoad] = useState(false);
+
   const dispatchTheme = (categoryName: string) => {
     switch (categoryName) {
       case "Role":
@@ -43,54 +44,47 @@ const GameCard = ({ cardInfo, style, className, onClick }: GameCardProps) => {
   };
 
   return (
-    <>
-      {cardInfo && (
-        <>
-          <GameCardContainer
-            className={className}
-            style={style}
-            theme={dispatchTheme(cardInfo.Category)}
-            onClick={onClick}
-          >
-            <Header>
-              <DisplayNamebar>{cardInfo.Name}</DisplayNamebar>
-              {cardInfo.Category === "Role" && (
-                <RaceIcon raceName={cardInfo.Attribute?.Name} />
-              )}
-            </Header>
-
-            {cardInfo.Category === "Role" ? (
-              <Starbar number={cardInfo.Star ? parseInt(cardInfo.Star) : 0} />
-            ) : (
-              <NatureInfobar>【{cardInfo.Nature?.Name}】</NatureInfobar>
-            )}
-              <Image
-                src={cardInfo.Img_Url}
-                isShow={imageLoad}
-                onLoad={() => {
-                  setImageLoad(true);
-                }}
-              />
-              {!imageLoad && <ImageLoading>LOADING...</ImageLoading>}
-            <Content>
-              {cardInfo.Category === "Role" && (
-                <RaceInfobar>{cardInfo.Race?.Name}</RaceInfobar>
-              )}
-
-              <EffectDescriptionbar>
-                {cardInfo.Effect_Description}
-              </EffectDescriptionbar>
-
-              {cardInfo.Category === "Role" && (
-                <Abilitybar>
-                  {`ATK/${cardInfo.Attack} DEF/${cardInfo.Defense}`}
-                </Abilitybar>
-              )}
-            </Content>
-          </GameCardContainer>
-        </>
+    <GameCardContainer
+      className={className}
+      style={style}
+      theme={dispatchTheme(cardInfo?.Category)}
+      onClick={onClick}
+    >
+      <Header>
+        <DisplayNamebar>{cardInfo?.Name}</DisplayNamebar>
+        {cardInfo?.Category === "Role" && (
+          <RaceIcon raceName={cardInfo?.Attribute?.Name} />
+        )}
+      </Header>
+      {cardInfo?.Category === "Role" ? (
+        <Starbar number={cardInfo?.Star ? parseInt(cardInfo?.Star) : 0} />
+      ) : (
+        <NatureInfobar>【{cardInfo?.Nature?.Name}】</NatureInfobar>
       )}
-    </>
+      <Image
+        src={cardInfo?.Img_Url}
+        isShow={imageLoad}
+        onLoad={() => {
+          setImageLoad(true);
+        }}
+      />
+      {!imageLoad && <ImageLoading>LOADING...</ImageLoading>}
+      <Content>
+        {cardInfo?.Category === "Role" && (
+          <RaceInfobar>{cardInfo?.Race?.Name}</RaceInfobar>
+        )}
+
+        <EffectDescriptionbar>
+          {cardInfo?.Effect_Description}
+        </EffectDescriptionbar>
+
+        {cardInfo?.Category === "Role" && (
+          <Abilitybar>
+            {`ATK/${cardInfo?.Attack} DEF/${cardInfo?.Defense}`}
+          </Abilitybar>
+        )}
+      </Content>
+    </GameCardContainer>
   );
 };
 

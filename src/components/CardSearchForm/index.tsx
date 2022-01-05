@@ -18,7 +18,8 @@ export interface CardSearchFormProps{
 }
 
 const CardSearchForm = ({onFinish,onFail,onSubmit,enableFirstSearch}:CardSearchFormProps) => {
-    const [loginId,setLoginId] = useCookie("login-id","");
+    const sessionKey = `${process.env.REACT_APP_SESSION_LOGIN_KEY}`;
+    const [loginId,setLoginId] = useCookie(sessionKey,"");
     const [selectCategory,setSelectCategory] = useState<"Role" | "Effect">();
     const [keyWord,setKeyWord] = useState<string>();
 
@@ -35,7 +36,7 @@ const CardSearchForm = ({onFinish,onFail,onSubmit,enableFirstSearch}:CardSearchF
 
     const initialCardInfos = (keyword?:string | undefined,category?:"Role" | "Effect")=>{
         getCardInfosRequest(loginId,keyword,category)
-        .then((cardInfos)=>onFinish(cardInfos))
+        .then(onFinish)
         .catch(onFail);
     }
 

@@ -37,7 +37,6 @@ export default interface CardInfo {
     UUID: string;
     Name: string;
     Category: "Role" | "Effect";
-    Img: string;
     Img_Url:string;
     Effect_Assert?: any;
     Effect_Description: string;

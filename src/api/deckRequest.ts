@@ -10,6 +10,7 @@ export const getDeckInfosRequest = async (
         query:`query { 
             DeckList(User_ID:${userId}){
                 ID
+                Img_Url
                 Name
                 Cards
             }
@@ -44,7 +45,6 @@ export const getDeckInfoRequest = async (
                     UUID
                     Name
                     Category
-                    Img
                     Img_Url
                     Effect_Assert
                     Effect_Description

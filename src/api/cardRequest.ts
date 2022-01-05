@@ -25,7 +25,6 @@ export const getCardInfosRequest = async (
                 UUID
                 Name
                 Category
-                Img
                 Img_Url
                 Effect_Assert
                 Effect_Description

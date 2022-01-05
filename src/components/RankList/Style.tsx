@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { ScrollbarCss } from "styles/Scrollbar";
+import { Lottie } from "components";
 
 export const RankListContainer = styled.div`
     background-color: var(--bg-color-2);
@@ -7,22 +9,23 @@ export const RankListContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding:20px 0px;
-    grid-gap: 30px;
+    justify-content: flex-start;
     overflow: auto;
+    ${ScrollbarCss}
 `
 
 export const Header = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
-    grid-gap: 25px;
+    justify-content: flex-start;
+    grid-gap: 0px;
     color:var(--text-color-1);
+    width:100%;
 `
 
-export const Logo = styled.img`
-    width: 45px;
+export const Logo = styled(Lottie)`
+    width: 80px;
+    height:80px;
     height: auto;
     object-fit: contain;
 `
@@ -33,7 +36,6 @@ export const PlayerInfosSection = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border:1px solid var(--border-color-1);
 `
 
 export const PlayerInfosHeader = styled.div`
@@ -45,7 +47,6 @@ export const PlayerInfosHeader = styled.div`
     text-align: center;
     color:var(--text-color-1);
     padding:15px 10px;
-    background-color: var(--bg-color-1);
 `
 
 export const PlayerInfobar = styled.div`
@@ -57,12 +58,9 @@ export const PlayerInfobar = styled.div`
     text-align: center;
     color:var(--text-color-1);
     padding:8px 10px;
-    background-color: var(--bg-color-1);
-    border: 1px solid var(--bg-color-1);
 
     &:hover{
-        color: var(--text-color-2);
-        border: 1px solid var(--text-color-2);
+        color: var(--text-color-3);
     }
 `
 

@@ -8,17 +8,23 @@ import {
     PlayerInfosHeader,
     Header
 } from "./Style";
-
+import { animationInfos } from "components/Lottie";
 export interface RankListProps{
-    players:PlayerInfo[]
+    players:PlayerInfo[],
+    className?:string
 }
 
-const RankList = ({players}:RankListProps) => {
+const RankList = ({players,className}:RankListProps) => {
+
+    const sortPlayers = (players:PlayerInfo[])=>{
+        players.sort((pre,current) => pre.Victory - current.Defeat)
+    }
+
     return (
-        <RankListContainer>
+        <RankListContainer className={className}>
             <Header>
-                <Logo src={"./images/logo/rank.png"}/>
-                <h1>Rank</h1>
+                <Logo autoplay={true} animation={animationInfos.medal} />
+                <h1>Doge Heros</h1>
             </Header>
 
             

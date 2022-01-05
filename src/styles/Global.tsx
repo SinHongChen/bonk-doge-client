@@ -9,6 +9,11 @@ export const GlobalStyle = createGlobalStyle`
         /* font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif; */
     }
 
+    a{
+        text-decoration: none;
+        color:var(--text-color-2);
+    }
+
     :root {
         --sunkist:linear-gradient(to right, rgb(242, 153, 74), rgb(242, 201, 76));
         --deep-space:linear-gradient(to left, rgba(0, 0, 0,1), rgb(67, 67, 67));
@@ -28,8 +33,8 @@ export const GlobalStyle = createGlobalStyle`
         --border-color-1: rgb(64, 64, 70);
         --box-shadow-color-1: rgba(0,0,0,0.5);
 
-        --navbar-index:2;
-        --popup-index:3;
+        --navbar-index:999;
+        --popup-index:1000;
     }
     
 `

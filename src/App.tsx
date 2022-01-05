@@ -1,12 +1,11 @@
 import React, { lazy } from "react";
-import { Dashboard, ScrollToTop } from "components";
+import { Layout, ScrollToTop } from "components";
 import { GlobalStyle } from "styles/Global";
 import {
   Login,
   GamesLobby,
   Cards,
   Account,
-  Socket,
   Game,
   Logout,
   DeckList,
@@ -21,7 +20,6 @@ const LoginPage = lazy(() => import("./pages/Login"));
 const GamesLobbyPage = lazy(() => import("./pages/GamesLobby"));
 const CardsPage = lazy(() => import("./pages/Cards"));
 const AccountPage = lazy(() => import("./pages/Account"));
-const SocketPage = lazy(() => import("./pages/Socket"));
 const GamePage = lazy(() => import("./pages/Game"));
 const LogoutPage = lazy(() => import("./pages/Logout"));
 
@@ -33,40 +31,39 @@ const App = () => {
         <Provider store={store}>
           <ScrollToTop>
             <Routes>
-              <Route
-                path="/account"
-                element={<Dashboard element={<Account />} />}
-              />
               <Route path="/login" element={<Login />} />
               <Route
+                path="/game"
+                element={<Game />}
+              />
+              <Route
+                path="/account"
+                element={<Layout element={<Account />} />}
+              />
+              <Route
                 path="/deckCreate"
-                element={<Dashboard element={<DeckCreate />} />}
+                element={<Layout element={<DeckCreate />} />}
               />
               <Route
                 path="/deck"
-                element={<Dashboard element={<DeckList />} />}
+                element={<Layout element={<DeckList />} />}
               />
               <Route
                 path="/deck/:id"
-                element={<Dashboard element={<DeckEdit />} />}
+                element={<Layout element={<DeckEdit />} />}
               />
               <Route
                 path="/cards"
-                element={<Dashboard element={<Cards />} />}
+                element={<Layout element={<Cards />} />}
               />
               <Route
                 path="/gamesLobby"
-                element={<Dashboard element={<GamesLobby />} />}
+                element={<Layout element={<GamesLobby />} />}
               />
-              <Route
-                path="/socket"
-                element={<Dashboard element={<Socket />} />}
-              />
-              <Route path="/game" element={<Game />} />
               <Route path="/logout" element={<Logout />} />
               <Route
-                path="/"
-                element={<Dashboard element={<GamesLobby />} />}
+                path="*"
+                element={<Layout element={<GamesLobby />} />}
               />
             </Routes>
           </ScrollToTop>

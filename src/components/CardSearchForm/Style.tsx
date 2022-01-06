@@ -39,8 +39,8 @@ export const CategorySelector = styled.label<CategorySelectorProps>`
     justify-content: center;
     letter-spacing: 2px;
     border-radius: 0.2em;
-    border:1px solid var(--border-color-1);
-    color: ${props => props.isSelected ? "var(--text-color-2)" : "var(--text-color-1)"};
+    border: ${props => props.isSelected ? "1px solid var(--text-color-3)" : "1px solid var(--border-color-1)"};
+    color: ${props => props.isSelected ? "var(--text-color-3)" : "var(--text-color-1)"};
 
     &:hover{
         cursor: pointer;

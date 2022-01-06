@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Lottie } from "components";
 
 export const GameContainer = styled.div`
     width: 100vw;
@@ -11,11 +12,22 @@ export const WattingMatchSection = styled.div`
     width: 100%;
     height:100%;
     display:flex;
+    flex-direction: column;
     align-items:center;
     justify-content:center;
     color:var(--text-color-1);
-    font-size:clamp(1rem,2.5vw,2.5rem);
+    font-size:clamp(1rem,2vw,1.5rem);
 `
+
+export const InitialGameInfoSection = styled(WattingMatchSection)`
+
+`
+
+export const MatchAnimation = styled(Lottie)`
+    width: clamp(200px,50%,400px);
+    height: auto;
+`
+
 
 export const BackgroundSection = styled.div`
     background-image: url("https://images.unsplash.com/photo-1500252185289-40ca85eb23a7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80");

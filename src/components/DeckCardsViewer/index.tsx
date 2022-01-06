@@ -42,7 +42,7 @@ const DeckCardsViewer = ({
       {!isLoading && (
         <GridViewSection>
           {deckInfos.length < maxDeckNumber && mode === "edit" && (
-            <CreateDeckCard to="/deckCreate">新增</CreateDeckCard>
+            <CreateDeckCard to="/deckCreate">CREATE</CreateDeckCard>
           )}
           {deckInfos.map((deckInfo, index) => {
             return (

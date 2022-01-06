@@ -7,8 +7,9 @@ import {
   PopupFooter,
   EnemyBottomSection,
   SurrenderBtn,
+  RoundOverBtn
 } from "./Style";
-import { CardInfo,GameBoardData } from "types";
+import { CardInfo } from "types";
 import { Popup, Button } from "components/Basic";
 import { GameCard } from "components";
 import BoardCards from "./BoardCards";
@@ -17,13 +18,39 @@ import PlayerInfobar from "./PlayerInfobar";
 import EnemyCards from "./EnemyCards";
 import { useNavigate } from "react-router-dom";
 
+
+
+export interface EnemyInfo{
+  hp:number,
+  handCardsNumber:number,
+  boardCardInfos:CardInfo[],
+  remainingCardsNumber:number
+}
+
+export interface SelfInfo{
+  hp:number,
+  handCardInfos:CardInfo[],
+  boardCardInfos:CardInfo[],
+  remainingCardsNumber:number,
+}
+
+export interface GameBoardData {
+  currentRound:"SELF" | "ENEMY",
+  enemy:EnemyInfo,
+  self:SelfInfo
+}
+
 export interface BoardProps{
   gameBoardData:GameBoardData,
   setGameBoardData:React.Dispatch<React.SetStateAction<GameBoardData | undefined>>,
-  onCardTrigge:(cardId:string,assert:any) => void
+  onCardAssert:(cardId:string,assert:any) => void,
+  onSurrender:()=>void,
+  onPutCard:(cardId:string)=>void,
+  onTakeCard:()=>void,
+  onRoundOver:()=>void
 }
 
-const Board = ({gameBoardData,setGameBoardData,onCardTrigge}:BoardProps) => {
+const Board = ({gameBoardData,setGameBoardData,onCardAssert,onSurrender,onPutCard,onTakeCard,onRoundOver }:BoardProps) => {
   const navigate = useNavigate();
   const [enabledPopup, setEnabledPopup] = useState<boolean>(false);
   const [popupCardMode, setPopupCardMode] = useState<
@@ -39,7 +66,7 @@ const Board = ({gameBoardData,setGameBoardData,onCardTrigge}:BoardProps) => {
         target: cardInfo.UUID
       }
     }
-    onCardTrigge(cardInfo.UUID,assert);
+    onCardAssert(cardInfo.UUID,assert);
   }
 
   const launchEffectHanlder = (cardInfo:CardInfo)=>{
@@ -48,9 +75,10 @@ const Board = ({gameBoardData,setGameBoardData,onCardTrigge}:BoardProps) => {
 
   const playCardHandler = (cardInfo:CardInfo)=>{
     let data = gameBoardData;
-    if(data && data.Self.BoardCards.length < maxBoardCardNumber){
-      data.Self.BoardCards.push(cardInfo);
-      data.Self.HandCards = data.Self.HandCards.filter((data) => data.UUID !== cardInfo.UUID);
+    if(data && data.self.boardCardInfos.length < maxBoardCardNumber){
+      data.self.boardCardInfos.push(cardInfo);
+      data.self.handCardInfos = data.self.handCardInfos.filter((data) => data.UUID !== cardInfo.UUID);
+      onPutCard(cardInfo.UUID);
       setGameBoardData(data);
       setEnabledPopup(false);
     }else{
@@ -71,31 +99,37 @@ const Board = ({gameBoardData,setGameBoardData,onCardTrigge}:BoardProps) => {
         <EnemyBottomSection>
           <PlayerInfobar
             type="enemy" 
-            playerInfo={{hp:4000,name:"陳信宏",pitcure:"https://occ-0-5599-395.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAAFN41tH7NkUzMGil3NC18DpDtYZpyCRyCgnoC_wsDDcQHIuCG-mEJ29zR5zBywIj0C_c2N0FDn3cxlqWShRjJGAcbxQ.png?r=d28"}} 
+            playerInfo={{hp:gameBoardData?.enemy.hp,name:"陳信宏",pitcure:"https://occ-0-5599-395.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAAFN41tH7NkUzMGil3NC18DpDtYZpyCRyCgnoC_wsDDcQHIuCG-mEJ29zR5zBywIj0C_c2N0FDn3cxlqWShRjJGAcbxQ.png?r=d28"}} 
           />
-          <EnemyCards cardNumber={3}/>
+          <EnemyCards cardNumber={gameBoardData?.enemy.handCardsNumber}/>
         </EnemyBottomSection>
         <BoardCards
-          cardInofs={gameBoardData?.Enemy.BoardCards ? gameBoardData?.Enemy.BoardCards : []}
+          cardInofs={gameBoardData?.enemy.boardCardInfos ? gameBoardData?.enemy.boardCardInfos : []}
           onCardClick={(cardInfo)=>{cardClickHandler(cardInfo,"enemy")}}
         />
       </EnemyPlace>
 
       <SelfPlace>
         <BoardCards
-          cardInofs={gameBoardData?.Self.BoardCards ? gameBoardData?.Self.BoardCards : []}
-          onCardClick={(cardInfo)=>{cardClickHandler(cardInfo,"board")}}
+          cardInofs={gameBoardData?.self.boardCardInfos ? gameBoardData?.self.boardCardInfos : []}
+          onCardClick={(cardInfo)=>{
+            if(gameBoardData.currentRound === "SELF"){
+              cardClickHandler(cardInfo,"board");
+            }
+          }}
         />
         <SelfBottomSection>
-          <HandCards cardInfos={gameBoardData?.Self.HandCards ? gameBoardData?.Self.HandCards : []} onCardClick={(cardInfo)=>{cardClickHandler(cardInfo,"hand")}} />
+          <HandCards cardInfos={gameBoardData?.self.handCardInfos ? gameBoardData?.self.handCardInfos : []} onCardClick={(cardInfo)=>{cardClickHandler(cardInfo,"hand")}} />
           <PlayerInfobar 
             type="self" 
-            playerInfo={{hp:4000,name:"陳信宏",pitcure:"https://occ-0-5599-395.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAAFJSe2el5rVnCVz5d1R8pnqYzBiXwEM7ooxTNY1LCrf6HzWO0RCORDzTO9IlOqpmCYCKIVyjPX5xMFw-RLz9WpqYvEg.png?r=93c"}} 
+            playerInfo={{hp:gameBoardData?.self.hp,name:"陳信宏",pitcure:"https://occ-0-5599-395.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAAFJSe2el5rVnCVz5d1R8pnqYzBiXwEM7ooxTNY1LCrf6HzWO0RCORDzTO9IlOqpmCYCKIVyjPX5xMFw-RLz9WpqYvEg.png?r=93c"}} 
           />
-          <SurrenderBtn onClick={()=>{navigate("/")}}>投降 🤕</SurrenderBtn>
+          {gameBoardData.currentRound === "SELF" && <RoundOverBtn onClick={onTakeCard}>抽牌</RoundOverBtn>}
+          {gameBoardData.currentRound === "SELF" && <RoundOverBtn onClick={onRoundOver}>回合結束</RoundOverBtn>}
+          <SurrenderBtn onClick={onSurrender}>投降 🤕</SurrenderBtn>
         </SelfBottomSection>
       </SelfPlace>
-      {selectedCardInfo && enabledPopup && popupCardMode && (
+      {selectedCardInfo && enabledPopup && popupCardMode &&  (
         <Popup
           onClose={() => {
             setEnabledPopup(false);
@@ -120,5 +154,6 @@ const Board = ({gameBoardData,setGameBoardData,onCardTrigge}:BoardProps) => {
     </BoardContainer>
   );
 };
+
 
 export default Board;

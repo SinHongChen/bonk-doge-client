@@ -1,5 +1,6 @@
 import styled,{keyframes} from "styled-components";
 import GoogleLogin from 'react-google-login';
+import { BoldFontCss } from "styles/Font";
 
 
 export const LoginContainer = styled.div`
@@ -8,7 +9,7 @@ export const LoginContainer = styled.div`
     align-items: center;
     justify-content: flex-start;
     grid-row-gap: 25px;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     padding-top: 10vh;
     background:var(--bg-color-1);
@@ -34,7 +35,8 @@ export const GoogleOAuthBtn = styled(GoogleLogin)`
     &:hover{
         cursor: pointer !important;
         box-shadow: 1px 1px 4px 1px black !important;
-        border:1px solid white !important;
+        border:1px solid var(--text-color-3) !important;
+        color:var(--text-color-3) !important;
     }
 `
 
@@ -60,7 +62,8 @@ export const Title = styled.h1`
     -moz-box-reflect:below -20px linear-gradient(transparent,rgba(50,50,50,1));
     -o-text-stroke:0.5px white;
     -o-box-reflect:below -20px linear-gradient(transparent,rgba(50,50,50,1));
-
+    ${BoldFontCss};
+    
     &:after{
         content: attr(data-text);
         height: 100%;

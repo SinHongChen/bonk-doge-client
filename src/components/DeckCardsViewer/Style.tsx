@@ -20,8 +20,8 @@ export const CreateDeckCard = styled(Link)`
   background: linear-gradient(to right,#59595e,rgb(30, 29, 37));
   box-shadow: 1px 1px 6px 1px black;
   border: 1px solid var(--border-color-1);
-  height: 420px;
-  min-width: 270px;
+  height: 382px;
+  min-width: 239px;
   color: var(--text-color-1);
   font-size: 20px;
   font-weight: bold;
@@ -29,6 +29,7 @@ export const CreateDeckCard = styled(Link)`
   letter-spacing: 3px;
   &:hover {
     cursor: pointer;
+    border:1px solid var(--text-color-3);
     box-shadow: 1px 1px 15px 3px black;
   }
 `;

@@ -19,13 +19,11 @@ import {
   AiFillFolderOpen,
   AiOutlineHome,
 } from "react-icons/ai";
-import { useSelector } from "react-redux";
-import { selectUserInfo } from "reducer/userReducer";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCookie } from "hooks";
 import { getUserInfoRequest } from "api/userRequest";
-import { useDispatch } from "react-redux";
-import { setUserInfo } from "reducer/userReducer";
+import { useDispatch,useSelector } from "react-redux";
+import { setUserInfo,selectUserInfo } from "reducer/userReducer";
 import { UserInfo } from "types/api";
 import { RiLogoutBoxLine } from "react-icons/ri";
 

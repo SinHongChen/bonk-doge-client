@@ -17,6 +17,7 @@ export const animationInfos = {
     "success" : { data: require("./success-animation.json"), displayName: "success" },
     "fail" : { data: require("./fail-animation.json"), displayName: "fail" },
     "uploading" : { data: require("./uploading-file-animation.json"), displayName: "uploading" },
+    "match" : { data: require("./match-animation.json"), displayName: "match" },
 }
 
 export interface LottieContainerProps{

@@ -40,7 +40,7 @@ const DeckList = () => {
                 isLoading={isSearching}
                 onDeckClick={onDeckClick}
                 deckInfos={deckInfos}
-                remindMsg={"點擊進行卡牌編輯"}
+                remindMsg={"EDIT"}
             />
         </DeckListContainer>
     )

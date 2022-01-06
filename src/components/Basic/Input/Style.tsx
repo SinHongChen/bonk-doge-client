@@ -22,6 +22,10 @@ export const InputElement = styled.input<InputElementProps>`
     outline: none;
     font-size: initial;
     color:var(--text-color-1);
+
+    &:focus{
+        border:1px solid var(--text-color-3);
+    }
 `
 
 export const ErrorMsg = styled.label`

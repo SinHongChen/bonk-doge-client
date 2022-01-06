@@ -69,3 +69,14 @@ export const SurrenderBtn = styled.button`
         cursor:pointer;
     }
 `
+
+export const RoundOverBtn = styled(SurrenderBtn)`
+    color:var(--text-color-2);
+    border:1px solid var(--text-color-2);
+
+    &:hover{
+        color:white;
+        background:var(--text-color-2);
+        cursor:pointer;
+    }
+`

@@ -39,16 +39,4 @@ export const LogoContainer = styled.div<LogoProps>`
         background-color:linear-gradient(#edc877 0%, #e6bc60 60%, #d9ab45 100%);
         border-radius: 50%;
     }
-
-    &:after{
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 35px;
-        border-radius: 50%;
-        background: rgba(0,0,0,0 );
-        bottom: -30px;
-        z-index: 2;
-        filter: blur(10px);
-    }
 `

@@ -6,9 +6,7 @@ import {
   BackgroundSection,
   TopRankList,
   ShowSelectedDeckSection,
-  StartSection,
   StartBtn,
-  TeachBtn,
   CardListSection,
   SelectedDeckName,
   UnCreateDeckRemindMsg,
@@ -81,7 +79,7 @@ const GamesLobby = () => {
       <Main>
         {deckInfos.length > 0 ? (
           <DeckCards
-            remindMsg={"選擇要對戰的卡牌"}
+            remindMsg={"SELECT"}
             deckInfos={deckInfos}
             onDeckClick={onDeckClick}
           />
@@ -107,10 +105,7 @@ const GamesLobby = () => {
         )}
 
         <TopRankList players={[...players]} />
-        <StartSection>
-          <TeachBtn>教學模式</TeachBtn>
-          <StartBtn onClick={onStartClick}>批配對戰</StartBtn>
-        </StartSection>
+        <StartBtn onClick={onStartClick}>GAME START !</StartBtn>
       </Main>
     </GamesLobbyContainer>
   );

@@ -71,7 +71,7 @@ export const Main = styled.div`
 
     @media ${deviceMedia.desktop}{       
         display: grid; 
-        grid-template-columns: 350px 1fr;
+        grid-template-columns: 290px 1fr;
         grid-template-rows: 1fr 260px ;
         align-items: center;
         justify-items: center;
@@ -81,7 +81,7 @@ export const Main = styled.div`
     }
     @media ${deviceMedia.tablet}{    
         display: grid; 
-        grid-template-columns: 350px 1fr;
+        grid-template-columns: 290px 1fr;
         grid-template-rows: 1fr 260px ;
         align-items: center;
         justify-items: center;
@@ -129,47 +129,26 @@ export const CardListSection = styled(GameCardsViewer)`
     }
 `
 
-export const StartSection = styled.div`
-    height: 100%;
-    width: 100%;
-
-    @media ${deviceMedia.desktop}{       
-        display: flex;
-        align-items: center;
-        justify-items: center;
-        grid-gap: 30px;
-    }
-    @media ${deviceMedia.tablet}{    
-        display: flex;
-        align-items: center;
-        justify-items: center;
-        grid-gap: 30px;
-    }
-    @media ${deviceMedia.mobile}{    
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-items: center;  
-        grid-gap: 5px;  
-    }
-`
-
 export const StartBtn = styled.button`
-  background: linear-gradient(to right,#59595e,rgb(30, 29, 37));
+  background: rgba(0,0,0,0);
   height: 100%;
   width: 100%;
   outline: none;
   border:1px solid var(--border-color-1);
   color:var(--text-color-1);
-  font-size: clamp(1rem, 2.5vw, 2rem); 
+  font-size: clamp(1rem, 4vw, 4rem); 
   font-weight: bold;
   letter-spacing: 3px;
   border-radius:0.2em;
   display: flex;
   align-items:center;
   justify-content:center;
+  transition:all 0.5s ease-in-out;
+
   &:hover{
       cursor:pointer;
+      color:var(--text-color-3);
+      border:1px solid var(--text-color-3);
   }
 
     @media ${deviceMedia.mobile}{    
